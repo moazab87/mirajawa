@@ -1,0 +1,142 @@
+<?php
+
+return [
+    'dir' => 'ltr',
+    'cssFile' => 'css-ltr',
+    'thisLang' => 'ja',
+    'otherLang' => 'en',
+    'langFlag' => 'jp',
+    'arabic' => 'アラビア語',
+    'english' => '英語',
+
+    "dashboard" => "ダッシュボード",
+    "users_management" => "ユーザー管理",
+    "general_settings" => "一般設定",
+    "settings" => "設定",
+
+    "users" => [
+        'index' => 'スタッフ一覧',
+        "create" => "新しいスタッフを追加",
+        "edit" => "スタッフを編集",
+        "show" => "スタッフを表示",
+    ],
+
+    "admins" => [
+        'index' => '管理者一覧',
+        "create" => "新しい管理者を追加",
+        "edit" => "管理者を編集",
+        "show" => "管理者を表示",
+    ],
+
+    "notifications" => [
+        'index' => '通知',
+        'readAll' => 'すべてを既読にする',
+        'notificationDetails' => '通知の詳細',
+    ],
+
+    "teams" => [
+        'index' => '部署',
+        "create" => "新しい部署を追加",
+        "edit" => "部署を編集",
+        "show" => "部署を表示",
+    ],
+
+    "projects" => [
+        'index' => 'プロジェクト',
+        "create" => "新しいプロジェクトを追加",
+        "edit" => "プロジェクトを編集",
+        "show" => "プロジェクトを表示",
+    ],
+
+    "roles" => [
+        'index' => '役割と権限',
+        "create" => "新しい役割を追加",
+        "edit" => "役割を編集",
+        "show" => "役割を表示",
+    ],
+
+    "tasks" => [
+        'index' => 'タスク',
+        "create" => "新しいタスクを追加",
+        "edit" => "タスクを編集",
+        "show" => "タスクを表示",
+    ],
+
+    "clients" => [
+        'index' => 'クライアント',
+        "create" => "新しいクライアントを追加",
+        "edit" => "クライアントを編集",
+        "show" => "クライアントを表示",
+    ],
+];
+<?php
+
+return [
+    'dir'       => 'ltr',
+    'cssFile'   => 'css-ltr',
+    'thisLang'  => 'ja',
+    'otherLang' => 'en',
+    'langFlag'  => 'jp',
+    'arabic'    => 'アラビア語',
+    'english'   => '英語',
+
+    "dashboard"        => "ダッシュボード",
+    "users_management" => "ユーザー管理",
+    "general_settings" => "一般設定",
+    "settings"         => "設定",
+
+    "users" => [
+        'index'  => 'スタッフ一覧',
+        "create" => "新しいスタッフを追加",
+        "edit"   => "スタッフを編集",
+        "show"   => "スタッフを表示",
+    ],
+
+    "admins" => [
+        'index' => '管理者一覧',
+        "create" => "新しい管理者を追加",
+        "edit" => "管理者を編集",
+        "show" => "管理者を表示",
+    ],
+
+    "notifications" => [
+        'index' => '通知',
+        'readAll' => 'すべてを既読にする',
+        'notificationDetails' => '通知の詳細',
+    ],
+
+    "teams" => [
+        'index'  => '部署',
+        "create" => "新しい部署を追加",
+        "edit"   => "部署を編集",
+        "show"   => "部署を表示",
+    ],
+
+    "projects" => [
+        'index'  => 'プロジェクト',
+        "create" => "新しいプロジェクトを追加",
+        "edit"   => "プロジェクトを編集",
+        "show"   => "プロジェクトを表示",
+    ],
+
+    "roles" => [
+        'index'  => '役割と権限',
+        "create" => "新しい役割を追加",
+        "edit"   => "役割を編集",
+        "show"   => "役割を表示",
+    ],
+
+    "tasks" => [
+        'index'  => 'タスク',
+        "create" => "新しいタスクを追加",
+        "edit"   => "タスクを編集",
+        "show"   => "タスクを表示",
+    ],
+
+    "clients" => [
+        'index'  => 'クライアント',
+        "create" => "新しいクライアントを追加",
+        "edit"   => "クライアントを編集",
+        "show"   => "クライアントを表示",
+    ],
+];

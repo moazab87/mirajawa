@@ -1,0 +1,30 @@
+<?php
+
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Enums\TaskStatusEnum;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
+ */
+class TaskFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'title'       =>[
+                'ar' => fake()->sentence(),
+                'en' => fake()->sentence(),
+            ],
+            'description' => [
+                'ar' => fake()->paragraph(),
+                'en' => fake()->paragraph(),
+            ],
+            'status'      => fake()->randomElement([
+                TaskStatusEnum::NOT_COMPLETED->value,
+                TaskStatusEnum::COMPLETED->value,
+            ]),
+        ];
+    }
+}

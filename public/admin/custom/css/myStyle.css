@@ -1,0 +1,66 @@
+/* styles.css */
+
+/* For Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-content {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar i.fa-image {
+    font-size: 40px; /* Adjust the size as needed */
+}
+
+.file-loading input[type=file],
+input[type=file].file-loading {
+    width: 0;
+    height: 0;
+}
+
+.file-caption-icon .kv-caption-icon {
+    line-height: inherit;
+}
+
+.file-input,
+.file-loading:before,
+.btn-file,
+.file-caption,
+.file-preview,
+.krajee-default.file-preview-frame,
+.krajee-default .file-thumbnail-footer,
+.file-zoom-dialog .modal-dialog {
+    position: relative;
+}
+
+.file-loading:before {
+    content: '';
+    display: inline-block;
+    padding-left: 20px;
+    line-height: 16px;
+    font-size: 13px;
+    font-variant: small-caps;
+    color: #999;
+    background: transparent url(../img/loading.gif) top left no-repeat;
+}
+
+.file-loading[dir=rtl]:before {
+    background: transparent url(../img/loading.gif) top right no-repeat;
+    padding-left: 0;
+    padding-right: 20px;
+}
