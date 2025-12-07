@@ -4,7 +4,7 @@ return [
     'dir'                       => 'ltr',
     'cssFile'                   => 'css',
     'thisLang'                  => 'en',
-    'otherLang'                 => 'ar',
+    'otherLang'                 => 'ja',
     'langFlag'                  => 'us',
     'english'                   => 'English',
     'arabic'                    => 'العربية',
@@ -55,6 +55,13 @@ return [
         "create" => "Add New Role",
         "edit"   => "Edit Role",
         "show"   => "Show Role"
+    ],
+
+    "fixedPages" => [
+        'index' => 'Fixed Pages',
+        "create" => "Add New Fixed Page",
+        "edit" => "Edit Fixed Page",
+        "show" => "Show Fixed Page"
     ],
 
 ];

@@ -15,7 +15,10 @@ class DashboardService
 {
     public function getDashboardData()
     {
-        Hijri::setLang(defaultLang());
+        $lang = defaultLang();
+        // Hijri package only supports 'ar' and 'en', map 'ja' to 'en'
+        $hijriLang = in_array($lang, ['ar', 'en']) ? $lang : 'en';
+        Hijri::setLang($hijriLang);
 
         return [
             'active'        => 'dashboard',

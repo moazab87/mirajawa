@@ -27,12 +27,25 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        // Preserve the current language before invalidating session
+        $currentLang = $request->session()->get('Lang');
+        $allowedLanguages = ['en', 'ja'];
+        // Ensure the language is valid, default to 'en' if not
+        if (!in_array($currentLang, $allowedLanguages)) {
+            $currentLang = 'en';
+        }
+
         Auth::logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login');
+        // Restore the language preference after session regeneration
+        if ($currentLang) {
+            $request->session()->put('Lang', $currentLang);
+        }
+
+        return redirect()->route('admin.show.login');
     }
 }

@@ -88,7 +88,7 @@
         <!-- teams -->
         {{-- @can('teams.index') --}}
         <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">@lang('route.teams.index')</span>
+            <span class="menu-header-text">@lang('route.categories.index')</span>
         </li>
         <li class="menu-item {{ isset($active) && $active == 'categories' ? 'active' : '' }}">
             <a href="{{ route('admin.categories.index') }}" class="menu-link">
@@ -109,6 +109,12 @@
                     <div>@lang('route.settings')</div>
                 </a>
             </li>
+        <li class="menu-item {{ isset($active) && $active == 'fixedPages' ? 'active' : '' }}">
+            <a href="{{ route('admin.fixedPages.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div>@lang('route.fixedPages.index')</div>
+            </a>
+        </li>
         {{-- @endcan --}}
 
     </ul>

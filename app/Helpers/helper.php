@@ -78,7 +78,7 @@ if (!function_exists('languages')) {
 if (!function_exists('defaultLang')) {
     function defaultLang()
     {
-        return app()->getLocale();
+        return app()->getLocale() == 'en' ? 'ja' : 'en';
     }
 }
 

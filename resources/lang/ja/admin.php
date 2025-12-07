@@ -188,4 +188,10 @@ return [
     "siteTitle_ja" => "サイトタイトル（日本語）",
     "siteDescription_ja" => "サイト説明（日本語）",
     "logo_ja" => "ロゴ（日本語）",
+    "content" => "コンテンツ",
+    "fixedPages" => "固定ページ",
+    "content_ar" => "コンテンツ（アラビア語）",
+    "content_en" => "コンテンツ（英語）",
+    "content_ja" => "コンテンツ（日本語）",
+    "name_ja" => "名前（日本語）",
 ];

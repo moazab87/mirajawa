@@ -193,4 +193,9 @@ return [
     "siteTitle_ja"                    => "Site Title (Japanese)",
     "siteDescription_ja"              => "Site Description (Japanese)",
     "logo_ja"                         => "Logo (Japanese)",
+    "content"                         => "Content",
+    "fixedPages"                      => "Fixed Pages",
+    "content_ar"           => "Content (Arabic)",
+    "content_en"           => "Content (English)",
+    "content_ja"           => "Content (Japanese)",
 ];

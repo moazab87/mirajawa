@@ -18,15 +18,25 @@ class CheckLangMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $lang = $request->header('lang');
+        $allowedLanguages = ['en', 'ja'];
 
-        if($lang == '' || !in_array($lang, ['ar', 'en']) || $lang == null){
+        if($lang == '' || !in_array($lang, $allowedLanguages) || $lang == null){
             if(auth()->check()){
-                $lang = auth()->user()->lang;
+                $userLang = auth()->user()->lang;
+                // Validate user's language is in allowed list, otherwise default to 'en'
+                $lang = in_array($userLang, $allowedLanguages) ? $userLang : 'en';
             }else{
-                $lang = 'ar';
+                $lang = 'en'; // Default to 'en' instead of 'ar'
             }
         }
+        
+        // Final validation to ensure lang is always in allowed list
+        if(!in_array($lang, $allowedLanguages)){
+            $lang = 'en';
+        }
+        
         app()->setLocale($lang);
         return $next($request);
     }
 }
+
