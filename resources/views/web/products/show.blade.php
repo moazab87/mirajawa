@@ -17,7 +17,7 @@
                             <li class="breadcrumb-item"><a href="{{ route('web.home') }}">{{ __('admin.dashboard') }}</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('web.categories.index') }}">{{ __('admin.categories') }}</a></li>
                             @if($product->category)
-                                <li class="breadcrumb-item"><a href="{{ route('categories.show', $product->category->id) }}">{{ $product->category->name }}</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('web.categories.show', $product->category->id) }}">{{ $product->category->name }}</a></li>
                             @endif
                             <li class="breadcrumb-item active">{{ $product->name }}</li>
                         </ol>
@@ -100,7 +100,7 @@
                     @if($product->category)
                         <p class="text-muted mb-3">
                             <i class="bi bi-tag"></i> 
-                            <a href="{{ route('categories.show', $product->category->id) }}" class="text-decoration-none">
+                            <a href="{{ route('web.categories.show', $product->category->id) }}" class="text-decoration-none">
                                 {{ $product->category->name }}
                             </a>
                         </p>

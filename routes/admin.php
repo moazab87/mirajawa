@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\FixedPageController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\SocialController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -49,6 +50,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::resource('fixedPages',                    FixedPageController::class);
     Route::resource('products',                      ProductController::class);
     Route::resource('sliders',                       SliderController::class);
+    Route::resource('socials',                       SocialController::class);
     Route::delete('products/{product}/attachments/{attachment}', [ProductController::class, 'deleteAttachment'])->name('products.attachments.destroy');
     // Route::resource('projects',                 ProjectController::class);
     // Route::resource('tasks',                    TaskController::class);

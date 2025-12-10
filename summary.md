@@ -50,7 +50,7 @@ Files with specialized layouts were updated with:
         <td>
             <x-admin.buttons editRoute="{{ route('categories.edit', $category->id) }}"
                 deleteRoute="{{ route('categories.destroy', $category->id) }}"
-                showRoute="{{ route('categories.show', $category->id) }}" />
+                showRoute="{{ route('web.categories.show', $category->id) }}" />
         </td>
     </tr>
 @endforeach
@@ -76,7 +76,7 @@ Files with specialized layouts were updated with:
                 <x-admin.buttons 
                     editRoute="{{ route('categories.edit', $category->id) }}"
                     deleteRoute="{{ route('categories.destroy', $category->id) }}"
-                    showRoute="{{ route('categories.show', $category->id) }}" 
+                    showRoute="{{ route('web.categories.show', $category->id) }}" 
                 />
             </td>
         </tr>

@@ -18,16 +18,13 @@ class Social extends Model
         'name',
         'url',
         'icon',
-        'order',
         'is_active',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'order'     => 'integer',
     ];
 
     const SEARCH_ATTRIBUTES = ['name', 'url'];
 }
-
 

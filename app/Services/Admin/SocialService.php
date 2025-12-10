@@ -50,11 +50,6 @@ class SocialService
 
     public function store(array $data): array
     {
-        // Set default order if not provided
-        if (!isset($data['order'])) {
-            $data['order'] = (Social::max('order') ?? 0) + 1;
-        }
-
         Social::create($data);
 
         return ['key' => 'success', 'msg' => __('admin.successMessageText')];
@@ -67,5 +62,4 @@ class SocialService
         return ['key' => 'success', 'msg' => __('admin.editSuccessMessageText')];
     }
 }
-
 

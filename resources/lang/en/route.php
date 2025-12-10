@@ -78,6 +78,13 @@ return [
         "show" => "Show Slider"
     ],
 
+    "socials" => [
+        'index' => 'Social Media',
+        "create" => "Add New Social Media",
+        "edit" => "Edit Social Media",
+        "show" => "Show Social Media"
+    ],
+
     "en" => "English",
     "ja" => "日本語",
 

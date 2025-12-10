@@ -10,6 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Boxicons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Flag Icons -->
@@ -253,6 +255,31 @@
             color: var(--text-light);
         }
         
+        .social-link {
+            opacity: 0.8;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-link:hover {
+            opacity: 1;
+            transform: translateY(-3px) scale(1.1);
+            background: rgba(212, 165, 116, 0.3) !important;
+            color: var(--secondary-color) !important;
+            box-shadow: 0 5px 15px rgba(212, 165, 116, 0.3);
+        }
+        
+        .footer a {
+            transition: all 0.3s;
+        }
+        
+        .footer a:hover {
+            color: var(--secondary-color) !important;
+            padding-left: 5px;
+        }
+        
         @media (max-width: 768px) {
             .section-title {
                 font-size: 2rem;
@@ -316,14 +343,52 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <h5>{{ config('app.name', 'Mirajawa') }}</h5>
-                    <p class="text-muted">© {{ date('Y') }} {{ config('app.name', 'Mirajawa') }}. {{ __('admin.AllRightsReserved.') }}</p>
+                <div class="col-md-6 col-lg-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">{{ config('app.name', 'Mirajawa') }}</h5>
+                    <p class="text-muted mb-0">© {{ date('Y') }} {{ config('app.name', 'Mirajawa') }}. {{ __('admin.AllRightsReserved.') }}</p>
                 </div>
-                <div class="col-md-6 text-md-end">
-                    <a href="{{ route('web.categories.index') }}" class="text-light text-decoration-none me-3">
-                        {{ __('admin.categories') }}
-                    </a>
+                <div class="col-md-6 col-lg-4 mb-4 mb-md-0">
+                    <h6 class="text-light mb-3">{{ __('admin.quick_links') ?? 'Quick Links' }}</h6>
+                    <div class="d-flex flex-column">
+                        <a href="{{ route('web.home') }}" class="text-light text-decoration-none mb-2">
+                            <i class="bi bi-house me-2"></i>{{ __('admin.home') ?? 'Home' }}
+                        </a>
+                        <a href="{{ route('web.categories.index') }}" class="text-light text-decoration-none mb-2">
+                            <i class="bi bi-grid me-2"></i>{{ __('admin.categories') }}
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-4">
+                    @php
+                        $socials = $socials ?? \App\Models\Social::where('is_active', true)
+                            ->orderBy('id')
+                            ->get();
+                    @endphp
+                    @if($socials && $socials->count() > 0)
+                        <h6 class="text-light mb-3">{{ __('admin.follow_us') ?? 'Follow Us' }}</h6>
+                        <div class="d-flex gap-3 flex-wrap">
+                            @foreach($socials as $social)
+                                <a href="{{ $social->url }}" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   class="social-link text-light text-decoration-none d-inline-flex align-items-center justify-content-center"
+                                   title="{{ $social->name }}"
+                                   style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); font-size: 1.2rem; transition: all 0.3s;">
+                                    @if($social->icon)
+                                        <i class="{{ $social->icon }}"></i>
+                                    @else
+                                        <i class="bi bi-link-45deg"></i>
+                                    @endif
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.1);">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="text-muted mb-0 small">{{ __('admin.AllRightsReserved.') }}</p>
                 </div>
             </div>
         </div>

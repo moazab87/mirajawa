@@ -34,7 +34,7 @@
                                     @endif
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="badge bg-primary">{{ $category->products_count ?? 0 }} {{ __('admin.products') }}</span>
-                                        <a href="{{ route('categories.show', $category->id) }}" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('web.categories.show', $category->id) }}" class="btn btn-primary btn-sm">
                                             {{ __('admin.view') }} <i class="bi bi-arrow-right ms-1"></i>
                                         </a>
                                     </div>

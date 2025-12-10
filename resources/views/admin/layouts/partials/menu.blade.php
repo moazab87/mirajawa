@@ -34,6 +34,12 @@
                     <div data-i18n="@lang('route.sliders.index')">@lang('route.sliders.index')</div>
                 </a>
             </li>
+            <li class="menu-item {{ isset($active) && $active == 'socials' ? 'active' : '' }}">
+                <a href="{{ route('admin.socials.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-globe"></i>
+                    <div data-i18n="@lang('route.socials.index')">@lang('route.socials.index')</div>
+                </a>
+            </li>
         {{-- @endcan --}}
         <!-- Users Management -->
         {{-- <li class="menu-item {{ isset($active) && in_array($active, ['admins', 'users', 'roles']) ? 'open' : '' }}">

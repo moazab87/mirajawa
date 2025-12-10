@@ -15,7 +15,6 @@ class HomeController extends Controller
         $categories = Category::withCount('products')->get();
         $sliders = \App\Models\Slider::where('is_active', true)
             ->with('attachments')
-            ->orderBy('order')
             ->get();
 
         return view('web.home', compact('fixedPages', 'categories', 'sliders'));

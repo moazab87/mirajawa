@@ -15,7 +15,7 @@ class SocialController extends BaseCrudRepository
 
     public function __construct(protected SocialService $service)
     {
-        parent::__construct($service);
+        parent::__construct();
         $this->setData();
     }
 
@@ -61,7 +61,7 @@ class SocialController extends BaseCrudRepository
 
     public function index(\Illuminate\Http\Request $request)
     {
-        $models = $this->model->orderBy('order')->orderBy('id', 'desc');
+        $models = $this->model->orderBy('id', 'desc');
 
         if ($request->filled('search')) {
             $models = $models->where(function ($query) use ($request) {
@@ -100,5 +100,4 @@ class SocialController extends BaseCrudRepository
         ));
     }
 }
-
 

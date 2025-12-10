@@ -9,7 +9,7 @@
             ['url' => '#', 'text' => $title],
         ]" />
 
-        <x-admin.table :headers="['#', __('admin.name'), __('admin.url'), __('admin.icon'), __('admin.order'), __('admin.status'), __('admin.actions')]" :createRoute="$createRoute" :title="$title" :buttonText="__('admin.add')"
+        <x-admin.table :headers="['#', __('admin.name'), __('admin.url'), __('admin.icon'), __('admin.status'), __('admin.actions')]" :createRoute="$createRoute" :title="$title" :buttonText="__('admin.add')"
             :search="true" :indexRoute="$route">
 
             @forelse($models as $model)
@@ -29,7 +29,6 @@
                             <span class="text-muted">-</span>
                         @endif
                     </td>
-                    <td>{{ $model->order }}</td>
                     <td>
                         <span class="badge bg-{{ $model->is_active ? 'success' : 'secondary' }}">
                             {{ $model->is_active ? __('admin.active') : __('admin.inactive') }}
@@ -41,7 +40,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" class="text-center py-4">
+                    <td colspan="6" class="text-center py-4">
                         <div class="d-flex flex-column align-items-center">
                             <i class="bx bx-folder-open text-secondary mb-2" style="font-size: 3rem;"></i>
                             <h5 class="text-muted">{{ __('admin.no_data_available') ?? 'No data available' }}</h5>
@@ -61,5 +60,4 @@
 @section('script')
 
 @endsection
-
 
