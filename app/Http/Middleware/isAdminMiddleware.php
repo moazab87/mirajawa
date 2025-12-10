@@ -33,7 +33,7 @@ class isAdminMiddleware
                     }
                     return $next($request);
               }else {
-                return redirect()->route('home');
+                return redirect()->route('web.home');
               }
             }
         }

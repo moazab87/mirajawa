@@ -64,4 +64,21 @@ return [
         "show" => "Show Fixed Page"
     ],
 
+    "products" => [
+        'index' => 'Products',
+        "create" => "Add New Product",
+        "edit" => "Edit Product",
+        "show" => "Show Product"
+    ],
+
+    "sliders" => [
+        'index' => 'Sliders',
+        "create" => "Add New Slider",
+        "edit" => "Edit Slider",
+        "show" => "Show Slider"
+    ],
+
+    "en" => "English",
+    "ja" => "日本語",
+
 ];

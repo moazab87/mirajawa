@@ -28,6 +28,12 @@
                     <div data-i18n="@lang('route.dashboard')">@lang('route.dashboard')</div>
                 </a>
             </li>
+            <li class="menu-item {{ isset($active) && $active == 'sliders' ? 'active' : '' }}">
+                <a href="{{ route('admin.sliders.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-image"></i>
+                    <div data-i18n="@lang('route.sliders.index')">@lang('route.sliders.index')</div>
+                </a>
+            </li>
         {{-- @endcan --}}
         <!-- Users Management -->
         {{-- <li class="menu-item {{ isset($active) && in_array($active, ['admins', 'users', 'roles']) ? 'open' : '' }}">
@@ -92,11 +98,17 @@
         </li>
         <li class="menu-item {{ isset($active) && $active == 'categories' ? 'active' : '' }}">
             <a href="{{ route('admin.categories.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-group"></i>
-                <di>@lang('route.categories.index')</di>
+                <i class="menu-icon tf-icons bx bx-folder"></i>
+                <div>@lang('route.categories.index')</div>
             </a>
         </li>
         {{-- @endcan --}}
+        <li class="menu-item {{ isset($active) && $active == 'products' ? 'active' : '' }}">
+            <a href="{{ route('admin.products.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-box"></i>
+                <div>@lang('route.products.index')</div>
+            </a>
+        </li>
 
         <!-- Settings -->
         {{-- @can('settings.index') --}}

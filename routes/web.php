@@ -25,7 +25,8 @@ Route::get('/change-language/{lang}', function ($lang) {
     return redirect()->back();
 })->name('change.language');
 
-
-Route::get('/',             function () {
-    return redirect()->route('admin.admin.index');
-});
+// Public Website Routes
+Route::get('/', [App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
+Route::get('/categories', [App\Http\Controllers\Web\CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{id}', [App\Http\Controllers\Web\CategoryController::class, 'show'])->name('categories.show');
+Route::get('/products/{id}', [App\Http\Controllers\Web\ProductController::class, 'show'])->name('products.show');
