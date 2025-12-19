@@ -2,8 +2,8 @@
     $(document).on('click' , '.delete-row', function (e) {
         e.preventDefault()
         Swal.fire({
-            title: "{{__('هل تريد الاستمرار ؟')}}",
-            text: "{{__('هل انت متأكد انك تريد استكمال عملية الحذف')}}",
+            title: "{{__('admin.confirm')}}",
+            text: "{{__('admin.delete_confirmation')}}",
             type: 'warning',
             icon: 'warning',
             showCancelButton: true,

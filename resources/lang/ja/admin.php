@@ -1,7 +1,8 @@
 <?php
 
 return [
-    "WelcomeToAdminPanel!" => "管理パネルへようこそ！",
+    "welcome_message" => "私たちの驚くべきコレクションを探索してください",
+    "welcome_message_title" => "ようこそ",
     "AdminPanel" => "管理パネル",
     "PleaseSign-inToYourAccountAndStartTheAdventure" => "アカウントにサインインして冒険を始めましょう",
     "email" => "メール",

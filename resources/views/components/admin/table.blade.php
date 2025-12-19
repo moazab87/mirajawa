@@ -10,7 +10,9 @@
                 </h5>
                 <div class="d-flex">
                     @if (isset($search))
-                        <x-admin.search-form :route="$indexRoute" />
+                        @if ($search)
+                            <x-admin.search-form :route="$indexRoute" />
+                        @endif
                     @endif
                     @if (isset($createRoute))
                         <a href="{{ $createRoute }}" class="btn btn-primary">{{ $buttonText }}</a>

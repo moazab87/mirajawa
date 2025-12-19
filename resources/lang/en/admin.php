@@ -1,7 +1,8 @@
 <?php
 
 return [
-    "WelcomeToAdminPanel!"                           => "Welcome to the Admin Panel!",
+    "welcome_message" => "Discover our amazing collection",
+    "welcome_message_title" => "Welcome",
     "AdminPanel"                                     => "Admin Panel",
     "PleaseSign-inToYourAccountAndStartTheAdventure" => "Please sign in to your account and start the adventure",
     "email"                                          => "Email",

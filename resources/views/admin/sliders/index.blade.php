@@ -10,7 +10,7 @@
         ]" />
 
         <x-admin.table :headers="['#', __('admin.media'), __('admin.status'), __('admin.actions')]" :createRoute="$createRoute" :title="$title" :buttonText="__('admin.add')"
-            :search="true" :indexRoute="$route">
+            :search="false" :indexRoute="$route">
 
             @forelse($models as $model)
                 <tr>

@@ -125,7 +125,7 @@
                             @endif
 
                             {{-- Existing Videos --}}
-                            @if ($existingVideos->count() > 0)
+                            {{-- @if ($existingVideos->count() > 0)
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label">{{ __('admin.existing_videos') }}</label>
                                     <div class="row">
@@ -166,7 +166,7 @@
                                         @endforeach
                                     </div>
                                 </div>
-                            @endif
+                            @endif --}}
 
                             {{-- New Images Field --}}
                             <div class="mb-3 col-md-12">
@@ -180,7 +180,7 @@
                             </div>
 
                             {{-- New Videos Field --}}
-                            <div class="mb-3 col-md-12">
+                            {{-- <div class="mb-3 col-md-12">
                                 <label for="videos" class="form-label">{{ __('admin.add_videos') }}</label>
                                 <input type="file" class="form-control" id="videos" name="videos[]"
                                     multiple accept="video/*">
@@ -188,7 +188,7 @@
                                 @error('videos.*')
                                     <div class="text-danger">{{ $error }}</div>
                                 @enderror
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="d-flex justify-content-center">

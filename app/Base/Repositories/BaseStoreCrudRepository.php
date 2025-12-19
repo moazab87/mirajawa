@@ -120,7 +120,16 @@ abstract class BaseStoreCrudRepository extends Controller
 
         if($data->delete()){
             if($image != null){
-                delete_image(public_path('uploads/' . $this->folderName . '/' . $image));
+                // Handle array of images
+                if (is_array($image)) {
+                    $imagePaths = array_map(function($img) {
+                        return public_path('uploads/' . $this->folderName . '/' . $img);
+                    }, $image);
+                    deleteImage($imagePaths);
+                } else {
+                    // Handle single image string
+                    deleteImage(public_path('uploads/' . $this->folderName . '/' . $image));
+                }
             }
             return response()->json(['id' => $id]);
         }

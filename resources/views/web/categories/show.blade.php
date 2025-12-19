@@ -42,7 +42,7 @@
                                     })->first();
                                 @endphp
                                 @if($firstImage)
-                                    <a href="{{ route('products.show', $product->id) }}">
+                                    <a href="{{ route('web.products.show', $product->id) }}">
                                         <img src="{{ asset('storage/attachments/products/' . $firstImage->file_name) }}" 
                                              class="card-img-top" 
                                              alt="{{ $product->name }}">
@@ -64,7 +64,7 @@
                                     @endif
                                 </div>
                                 <div class="card-footer bg-transparent border-top-0">
-                                    <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary w-100">
+                                    <a href="{{ route('web.products.show', $product->id) }}" class="btn btn-primary w-100">
                                         {{ __('admin.view_details') ?? 'View Details' }} <i class="bi bi-arrow-right ms-1"></i>
                                     </a>
                                 </div>

@@ -9,10 +9,10 @@
             <div class="row align-items-center">
                 <div class="col-lg-6" data-aos="fade-right">
                     <h1 class="display-4 fw-bold mb-4" style="color: var(--primary-color);">
-                        {{ __('admin.WelcomeToAdminPanel!') ?? 'Welcome' }}
+                        {{ __('admin.welcome_message_title') ?? 'Welcome' }}
                     </h1>
                     <p class="lead mb-4 text-muted">
-                        {{ __('admin.PleaseSign-inToYourAccountAndStartTheAdventure') ?? 'Discover our amazing collection' }}
+                        {{ __('admin.welcome_message') ?? 'Discover our amazing collection' }}
                     </p>
                     <div class="d-flex gap-3 flex-wrap">
                         <a href="{{ route('web.categories.index') }}" class="btn btn-primary btn-lg">

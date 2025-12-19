@@ -54,7 +54,18 @@ if (!function_exists('allowedMimeTypesPdf')) {
 if (!function_exists('deleteImage')) {
     function deleteImage($image)
     {
-        if (\File::exists($image)) {
+        // Handle array of images
+        if (is_array($image)) {
+            foreach ($image as $img) {
+                if (is_string($img) && \File::exists($img)) {
+                    unlink($img);
+                }
+            }
+            return;
+        }
+        
+        // Handle single image string
+        if (is_string($image) && \File::exists($image)) {
             unlink($image);
         }
     }
@@ -206,16 +217,6 @@ if (!function_exists('uploadImage')) {
         return $imageName;
     }
 }
-
-if (!function_exists('deleteImage')) {
-    function deleteImage($image)
-    {
-        if (File::exists($image)) {
-            unlink($image);
-        }
-    }
-}
-
 
 if (!function_exists('logError')) {
     function logError($exception = null)

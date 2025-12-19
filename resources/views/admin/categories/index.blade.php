@@ -9,7 +9,7 @@
             ['url' => '#', 'text' => $title],
         ]" />
 
-        <x-admin.table :headers="['#', __('admin.name'), __('admin.leader'), __('admin.members_count'), __('admin.actions')]" :createRoute="$createRoute" :title="$title" :buttonText="__('admin.add')"
+        <x-admin.table :headers="['#', __('admin.name'), __('admin.leader'), __('admin.actions')]" :createRoute="$createRoute" :title="$title" :buttonText="__('admin.add')"
             :search="true" :indexRoute="$route">
 
             @forelse($models as $model)
@@ -21,9 +21,6 @@
                         {{ $model->name }}
                     </td>
                     <td>{{ $model->owner?->name ?? __('admin.not_assigned') }}</td>
-                    <td>
-                        <span class="badge bg-label-info">{{ $model->members_count }}</span>
-                    </td>
                     <td>
                         <x-admin.buttons :editRoute="route($editRoute, $model->id)" :deleteRoute="route($deleteRoute, $model->id)" :showRoute="route($showRoute, $model->id)" />
                     </td>

@@ -11,14 +11,14 @@ class SliderSeeder extends Seeder
     {
         // Create sample sliders
         Slider::create([
-            'link'      => 'https://example.com',
-            'order'     => 1,
+            // 'link'      => 'https://example.com',
+            // 'order'     => 1,
             'is_active' => true,
         ]);
 
         Slider::create([
-            'link'      => 'https://example.com',
-            'order'     => 2,
+            // 'link'      => 'https://example.com',
+            // 'order'     => 2,
             'is_active' => true,
         ]);
     }
