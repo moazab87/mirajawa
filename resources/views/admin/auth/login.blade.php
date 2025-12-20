@@ -49,6 +49,23 @@
 </head>
 
 <div>
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Language Toggle -->
+                <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
+                    <a class="nav-link hide-arrow d-flex align-items-center"
+                        href="{{ route('web.change.language', trans('route.otherLang')) }}"
+                        id="languageToggle"
+                        title="{{ __('admin.change_language') }}"
+                        aria-label="{{ __('admin.change_language') }}"
+                        style="min-width: 40px; min-height: 40px;">
+                        <i class="fi fi-{{ trans('route.langFlag') }} fis rounded-circle fs-3 toggleLang" style="display: inline-block;"></i>
+                    </a>
+                </li>
+                <!--/ Language Toggle -->
+
+            </ul>
+        </div>
     <!-- Content -->
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">

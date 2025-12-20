@@ -5,6 +5,7 @@ return [
     "welcome_message_title" => "ようこそ",
     "AdminPanel" => "管理パネル",
     "PleaseSign-inToYourAccountAndStartTheAdventure" => "アカウントにサインインして冒険を始めましょう",
+    'WelcomeToAdminPanel!' => '管理者パネルへようこそ！',
     "email" => "メール",
     "password" => "パスワード",
     "RememberMe" => "ログイン状態を保持する",

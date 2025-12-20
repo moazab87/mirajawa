@@ -5,6 +5,7 @@ return [
     "welcome_message_title" => "Welcome",
     "AdminPanel"                                     => "Admin Panel",
     "PleaseSign-inToYourAccountAndStartTheAdventure" => "Please sign in to your account and start the adventure",
+    'WelcomeToAdminPanel!' => 'Welcome to Admin Panel!',
     "email"                                          => "Email",
     "password"                                       => "Password",
     "RememberMe"                                     => "Remember Me",
