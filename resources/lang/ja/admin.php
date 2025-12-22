@@ -244,4 +244,5 @@ return [
     "follow_us" => "フォローする",
     "quick_links" => "クイックリンク",
     "home" => "ホーム",
+    'categories' => 'カテゴリ',
 ];

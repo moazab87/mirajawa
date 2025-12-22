@@ -40,6 +40,12 @@ class Slider extends Model
     }
 
     /**
+     *
+     *
+     *
+     *
+     *
+     * .
      * Get the main video attachment.
      */
     public function video()
