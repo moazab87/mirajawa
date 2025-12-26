@@ -29,7 +29,7 @@ class AuthController extends Controller
     {
         // Preserve the current language before invalidating session
         $currentLang = $request->session()->get('Lang');
-        $allowedLanguages = ['en', 'ja'];
+        $allowedLanguages = ['en', 'ja', 'ar'];
         // Ensure the language is valid, default to 'en' if not
         if (!in_array($currentLang, $allowedLanguages)) {
             $currentLang = 'en';

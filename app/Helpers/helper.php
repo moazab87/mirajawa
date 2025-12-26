@@ -82,14 +82,41 @@ if (!function_exists('generateRandomCode')) {
 if (!function_exists('languages')) {
     function languages()
     {
-        return ['ja', 'en'];
+        return ['en', 'ja', 'ar'];
     }
 }
 
 if (!function_exists('defaultLang')) {
     function defaultLang()
     {
-        return app()->getLocale() == 'en' ? 'ja' : 'en';
+        $current = app()->getLocale();
+        $all = ['en', 'ja', 'ar'];
+        $index = array_search($current, $all);
+        return $index !== false && isset($all[$index + 1]) ? $all[$index + 1] : $all[0];
+    }
+}
+
+if (!function_exists('getLanguageName')) {
+    function getLanguageName($lang)
+    {
+        $names = [
+            'en' => 'English',
+            'ja' => '日本語',
+            'ar' => 'العربية'
+        ];
+        return $names[$lang] ?? $lang;
+    }
+}
+
+if (!function_exists('getLanguageFlag')) {
+    function getLanguageFlag($lang)
+    {
+        $flags = [
+            'en' => 'us',
+            'ja' => 'jp',
+            'ar' => 'ae'
+        ];
+        return $flags[$lang] ?? 'us';
     }
 }
 

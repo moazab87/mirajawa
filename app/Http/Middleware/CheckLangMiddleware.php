@@ -18,7 +18,7 @@ class CheckLangMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $lang = $request->header('lang');
-        $allowedLanguages = ['en', 'ja'];
+        $allowedLanguages = ['en', 'ja', 'ar'];
 
         if($lang == '' || !in_array($lang, $allowedLanguages) || $lang == null){
             if(auth()->check()){

@@ -11,7 +11,7 @@ class Locale
     public function handle($request, Closure $next)
     {
         date_default_timezone_set('Africa/Cairo');
-        $allowedLanguages = config('app.locales'); // ['en', 'ja']
+        $allowedLanguages = config('app.locales'); // ['en', 'ja', 'ar']
         $defaultLocale = 'en'; // Use 'en' as default instead of config('app.locale') which is 'ar'
         
         if ($request->hasHeader("lang")) {

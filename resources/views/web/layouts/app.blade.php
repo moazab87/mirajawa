@@ -110,6 +110,15 @@
             box-shadow: 0 5px 15px rgba(139, 90, 60, 0.3);
         }
         
+        .language-switcher.dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+        
+        .dropdown-menu .dropdown-item {
+            display: flex;
+            align-items: center;
+        }
+        
         .hero-section {
             background: linear-gradient(135deg, #faf9f7 0%, #f5f3f0 50%, #f0ede8 100%);
             padding: 6rem 0;
@@ -306,6 +315,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('web.categories.index') }}">
+                            {{ __('admin.categories') }}
+                        </a>
+                    </li>
                     @php
                         $fixedPages = $fixedPages ?? \App\Models\FixedPage::all();
                     @endphp
@@ -316,23 +330,27 @@
                             </a>
                         </li>
                     @endforeach
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('web.categories.index') }}">
-                            {{ __('admin.categories') }}
-                        </a>
-                    </li>
                 </ul>
                 <div class="d-flex align-items-center">
-                    <a href="{{ route('web.change.language', trans('route.otherLang')) }}" 
-                       class="language-switcher text-decoration-none">
-                        @if(trans('route.otherLang') === 'ja')
-                            <span class="fi fi-jp fis me-2"></span>
-                            <span>日本語</span>
-                        @else
-                            <span class="fi fi-us fis me-2"></span>
-                            <span>English</span>
-                        @endif
-                    </a>
+                    <div class="dropdown">
+                        <a href="#" class="language-switcher text-decoration-none dropdown-toggle"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="fi fi-{{ trans('route.langFlag') }} fis me-2"></span>
+                            <span>{{ getLanguageName(app()->getLocale()) }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            @foreach(['en', 'ja', 'ar'] as $lang)
+                                @if($lang !== app()->getLocale())
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('web.change.language', $lang) }}">
+                                            <span class="fi fi-{{ getLanguageFlag($lang) }} fis me-2"></span>
+                                            <span>{{ getLanguageName($lang) }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

@@ -7,7 +7,11 @@
     <x-admin.uploadImage.image i="2" name="logo_en" multiple="" image="{{ getSettingImageLink('logo_en') }}"
         title="{{ __('admin.logo_en') }}" />
 
-    {{-- <x-admin.uploadImage.image i="3" name="logo_favicon" multiple="" image="{{ getSettingImageLink('logo_favicon') }}"
+
+    <x-admin.uploadImage.image i="3" name="logo_ar" multiple="" image="{{ getSettingImageLink('logo_ar') }}"
+        title="{{ __('admin.logo_ar') }}" />
+
+    {{-- <x-admin.uploadImage.image i="4" name="logo_favicon" multiple="" image="{{ getSettingImageLink('logo_favicon') }}"
         title="{{ __('admin.logo_favicon') }}" /> --}}
 
 </div>

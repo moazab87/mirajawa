@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/change-language/{lang}', function ($lang) {
-    $allowedLanguages = ['en', 'ja'];
+    $allowedLanguages = ['en', 'ja', 'ar'];
     // Validate language is in allowed list, otherwise default to 'en'
     if (!in_array($lang, $allowedLanguages)) {
         $lang = 'en';
