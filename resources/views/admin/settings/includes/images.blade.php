@@ -13,5 +13,7 @@
 
     {{-- <x-admin.uploadImage.image i="4" name="logo_favicon" multiple="" image="{{ getSettingImageLink('logo_favicon') }}"
         title="{{ __('admin.logo_favicon') }}" /> --}}
+    <x-admin.uploadImage.image i="3" name="logo_favicon" multiple="" image="{{ getSettingImageLink('logo_favicon') }}"
+        title="{{ __('admin.logo_favicon') }}" />
 
 </div>

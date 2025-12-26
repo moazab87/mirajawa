@@ -85,7 +85,7 @@ class SliderService
                 }
                 $attachment->delete();
             }
-            
+
             // Save new attachment
             $this->saveAttachment($slider, $media);
         }
@@ -99,18 +99,18 @@ class SliderService
     private function saveAttachment(Slider $slider, UploadedFile $file): void
     {
         if ($file->isValid()) {
-            $disk = 'public';
+            $disk = 'public_direct';
             $directory = 'attachments/sliders';
             $fileName = time() . '_' . rand(1111, 9999) . '.' . $file->getClientOriginalExtension();
-            
+
             // Ensure directory exists
             if (!Storage::disk($disk)->exists($directory)) {
                 Storage::disk($disk)->makeDirectory($directory);
             }
-            
+
             // Store the file
             $file->storeAs($directory, $fileName, $disk);
-            
+
             // Create attachment record
             $slider->attachments()->create([
                 'disk'          => $disk,

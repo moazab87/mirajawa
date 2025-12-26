@@ -118,18 +118,18 @@ class ProductService
     {
         foreach ($attachments as $file) {
             if ($file instanceof UploadedFile && $file->isValid()) {
-                $disk = 'public';
+                $disk = 'public_direct';
                 $directory = 'attachments/products';
                 $fileName = time() . '_' . rand(1111, 9999) . '.' . $file->getClientOriginalExtension();
-                
+
                 // Ensure directory exists
                 if (!Storage::disk($disk)->exists($directory)) {
                     Storage::disk($disk)->makeDirectory($directory);
                 }
-                
+
                 // Store the file
                 $path = $file->storeAs($directory, $fileName, $disk);
-                
+
                 // Create attachment record
                 $product->attachments()->create([
                     'disk'          => $disk,
