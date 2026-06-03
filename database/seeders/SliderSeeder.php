@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\GeneralStatusEnum;
 use App\Models\Slider;
 use Illuminate\Database\Seeder;
 
@@ -9,18 +10,13 @@ class SliderSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create sample sliders
-        Slider::create([
-            // 'link'      => 'https://example.com',
-            // 'order'     => 1,
-            'is_active' => true,
-        ]);
+        $payload = [
+            'title'       => ['ar' => 'مرحباً بكم', 'en' => 'Welcome to Mirajawa', 'ja' => 'ミラジャワへようこそ'],
+            'description' => ['ar' => 'منتجات عالية الجودة', 'en' => 'Premium quality products', 'ja' => '高品質な製品'],
+            'status'      => GeneralStatusEnum::ACTIVE->value,
+        ];
 
-        Slider::create([
-            // 'link'      => 'https://example.com',
-            // 'order'     => 2,
-            'is_active' => true,
-        ]);
+        $slider = Slider::first();
+        $slider ? $slider->update($payload) : Slider::create($payload);
     }
 }
-

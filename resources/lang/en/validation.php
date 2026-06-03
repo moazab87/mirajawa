@@ -147,7 +147,7 @@ return [
     |
     */
 
-    'attributes' => [
+    'attributes' => array_merge([
         'title_ar'              => 'title in arabic',
         'title_en'              => 'title in english',
         'description_ar'        => 'description in arabic',
@@ -183,6 +183,6 @@ return [
         "name.en"               => "Name in English",
         "product_id"            => "Product",
         "exhibition_type"       => "Exhibition Type",
-    ],
+    ], file_exists(__DIR__.'/validation_attributes.php') ? require __DIR__.'/validation_attributes.php' : []),
 
 ];

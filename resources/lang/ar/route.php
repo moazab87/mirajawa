@@ -112,6 +112,20 @@ return [
         "show" => "عرض وسيلة التواصل"
     ],
 
+    "website_content"   => "محتوى الموقع",
+    "products_section"  => "المنتجات",
+    "contact_requests"  => "التواصل والطلبات",
+    "productGroups" => ['index' => 'مجموعات المنتجات', "create" => "إضافة مجموعة", "edit" => "تعديل مجموعة", "show" => "عرض مجموعة"],
+    "addresses" => ['index' => 'العناوين', "create" => "إضافة عنوان", "edit" => "تعديل عنوان", "show" => "عرض عنوان"],
+    "branches" => ['index' => 'الفروع', "create" => "إضافة فرع", "edit" => "تعديل فرع", "show" => "عرض فرع"],
+    "faqs" => ['index' => 'الأسئلة الشائعة', "create" => "إضافة سؤال", "edit" => "تعديل سؤال", "show" => "عرض سؤال"],
+    "profiles" => ['index' => 'ملفات التعريف', "create" => "إضافة ملف", "edit" => "تعديل ملف", "show" => "عرض ملف"],
+    "histories" => ['index' => 'التاريخ', "create" => "إضافة عنصر", "edit" => "تعديل عنصر", "show" => "عرض عنصر"],
+    "informationBlocks" => ['index' => 'كتل المعلومات', "create" => "إضافة كتلة", "edit" => "تعديل كتلة", "show" => "عرض كتلة"],
+    "contactInformation" => ['index' => 'معلومات التواصل', "create" => "إضافة بطاقة", "edit" => "تعديل بطاقة", "show" => "عرض بطاقة"],
+    "contactMessages" => ['index' => 'رسائل التواصل', "show" => "رسالة تواصل"],
+    "informationRequests" => ['index' => 'طلبات المعلومات', "show" => "طلب معلومات"],
+
     "en" => "English",
     "ja" => "日本語",
     "ar" => "العربية",

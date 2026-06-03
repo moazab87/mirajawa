@@ -1,10 +1,10 @@
-<h4 class="py-3 breadcrumb-wrapper mb-4">
+<nav class="dash-breadcrumb" aria-label="breadcrumb">
     @foreach($links as $link)
-        <a href="{{ $link['url'] }}" class="text-decoration-none">
-            <span class="{{ $loop->last ? 'text-primary fw-semibold' : 'text-muted' }}  fw-light">{{ $link['text'] }}</span>
-        </a>
-        @if (!$loop->last)
-            <span class="text-muted fw-light"> / </span>
+        @if ($loop->last)
+            <span class="dash-breadcrumb-current">{{ $link['text'] }}</span>
+        @else
+            <a href="{{ $link['url'] }}" class="dash-breadcrumb-link">{{ $link['text'] }}</a>
+            <span class="dash-breadcrumb-sep">/</span>
         @endif
     @endforeach
-</h4>
+</nav>

@@ -82,7 +82,65 @@ if (!function_exists('generateRandomCode')) {
 if (!function_exists('languages')) {
     function languages()
     {
-        return ['en', 'ja', 'ar'];
+        return ['ar', 'en', 'ja'];
+    }
+}
+
+if (!function_exists('translatableFieldRules')) {
+    function translatableFieldRules(string $field, bool $nameField = true): array
+    {
+        if ($nameField) {
+            return [
+                "{$field}.ar" => 'required|string|max:255',
+                "{$field}.en" => 'nullable|string|max:255',
+                "{$field}.ja" => 'nullable|string|max:255',
+            ];
+        }
+
+        return [
+            "{$field}.ar" => 'nullable|string',
+            "{$field}.en" => 'nullable|string',
+            "{$field}.ja" => 'nullable|string',
+        ];
+    }
+}
+
+if (!function_exists('translatedDisplay')) {
+    function translatedDisplay($model, string $field, ?string $locale = null): ?string
+    {
+        if (!method_exists($model, 'getTranslation')) {
+            return $model->{$field} ?? null;
+        }
+
+        return $model->getDisplayTranslation($field, $locale);
+    }
+}
+
+if (!function_exists('generalStatusRule')) {
+    function generalStatusRule(): string
+    {
+        return 'required|integer|in:' . implode(',', \App\Enums\GeneralStatusEnum::values());
+    }
+}
+
+if (!function_exists('messageStatusRule')) {
+    function messageStatusRule(): string
+    {
+        return 'required|integer|in:' . implode(',', \App\Enums\MessageStatusEnum::values());
+    }
+}
+
+if (!function_exists('dashboard_module_key')) {
+    function dashboard_module_key(?string $routeOrFolder): string
+    {
+        return \App\Helpers\DashboardLang::moduleKey($routeOrFolder);
+    }
+}
+
+if (!function_exists('dashboard_trans')) {
+    function dashboard_trans(?string $routeOrFolder, string $suffix): string
+    {
+        return \App\Helpers\DashboardLang::trans($routeOrFolder, $suffix);
     }
 }
 

@@ -5,115 +5,105 @@ namespace App\Services\Admin;
 use App\Models\Attachment;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Contracts\View\View;
+use App\Models\ProductGroup;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-class ProductService
+class ProductService extends AbstractAdminCrudService
 {
-    private function dropdowns(): array
+    protected function modelClass(): string
     {
-        $categories = Category::query()
-            ->select('id', 'name')
-            ->orderBy('id')
-            ->get()
-            ->mapWithKeys(function ($category) {
-                return [$category->id => $category->getTranslation('name', app()->getLocale())];
-            })
-            ->toArray();
-
-        return compact('categories');
+        return Product::class;
     }
 
-    /**
-     * Static page meta shared between create/edit.
-     */
-    private function basePageData(): array
+    protected function activeKey(): string
+    {
+        return 'products';
+    }
+
+    protected function routeKey(): string
+    {
+        return 'products';
+    }
+
+    protected function singleName(): string
+    {
+        return 'product';
+    }
+
+    protected function dropdowns(): array
     {
         return [
-            'active'     => 'products',
-            'title'      => __('route.products.index'),
-            'singleName' => 'product',
-            'route'      => route('admin.products.index'),
+            'categories'     => $this->mapCategories(),
+            'productGroups'  => $this->mapProductGroups(),
         ];
     }
 
-    /**
-     * Helper to render create/edit with merged data.
-     */
-    private function renderForm(string $view, array $data = []): View
+    public function indexExtraData(Request $request): array
     {
-        return view($view, array_merge(
-            $this->basePageData(),
-            $this->dropdowns(),
-            $data
-        ));
+        return [
+            'categories'    => Category::orderBy('id')->get(),
+            'productGroups' => ProductGroup::orderBy('id')->get(),
+        ];
     }
 
-    public function create(): View
+    public function edit(Model $model): \Illuminate\Contracts\View\View
     {
-        return $this->renderForm('admin.products.create', [
-            'subTitle'   => __('route.products.create'),
-            'storeRoute' => route('admin.products.store'),
-        ]);
-    }
-
-    public function edit(Product $product): View
-    {
-        return $this->renderForm('admin.products.edit', [
-            'subTitle'    => __('route.products.edit'),
-            'updateRoute' => route('admin.products.update', $product->id),
-            'model'       => $product->loadMissing('attachments', 'category'),
-        ]);
+        return parent::edit($model->loadMissing('attachments', 'category', 'productGroup'));
     }
 
     public function store(array $data): array
     {
-        // Extract images and videos from data
         $images = $data['images'] ?? [];
         $videos = $data['videos'] ?? [];
         unset($data['images'], $data['videos']);
 
         $product = Product::create($data);
 
-        // Handle images
-        if ($product && !empty($images)) {
+        if (!empty($images)) {
             $this->saveAttachments($product, $images);
         }
-
-        // Handle videos
-        if ($product && !empty($videos)) {
+        if (!empty($videos)) {
             $this->saveAttachments($product, $videos);
         }
 
-        return ['key' => 'success', 'msg' => __('admin.successMessageText')];
+        return ['key' => 'success', 'msg' => __('dashboard.products.created_successfully')];
     }
 
-    public function update(Product $product, array $data): array
+    public function update(Model $model, array $data): array
     {
-        // Extract images and videos from data
         $images = $data['images'] ?? [];
         $videos = $data['videos'] ?? [];
         unset($data['images'], $data['videos']);
 
-        $updated = $product->update($data);
+        $model->update($data);
 
-        // Handle new images
-        if ($updated && !empty($images)) {
-            $this->saveAttachments($product, $images);
+        if (!empty($images)) {
+            $this->saveAttachments($model, $images);
+        }
+        if (!empty($videos)) {
+            $this->saveAttachments($model, $videos);
         }
 
-        // Handle new videos
-        if ($updated && !empty($videos)) {
-            $this->saveAttachments($product, $videos);
-        }
-
-        return ['key' => 'success', 'msg' => __('admin.editSuccessMessageText')];
+        return ['key' => 'success', 'msg' => __('dashboard.products.updated_successfully')];
     }
 
-    /**
-     * Save attachments for the product.
-     */
+    private function mapCategories(): array
+    {
+        return Category::query()->orderBy('id')->get()->mapWithKeys(function ($category) {
+            return [$category->id => $category->getDisplayTranslation('name')];
+        })->toArray();
+    }
+
+    private function mapProductGroups(): array
+    {
+        return ProductGroup::query()->with('category')->orderBy('id')->get()->mapWithKeys(function ($group) {
+            return [$group->id => $group->getDisplayTranslation('name')];
+        })->toArray();
+    }
+
     private function saveAttachments(Product $product, array $attachments): void
     {
         foreach ($attachments as $file) {
@@ -122,15 +112,12 @@ class ProductService
                 $directory = 'attachments/products';
                 $fileName = time() . '_' . rand(1111, 9999) . '.' . $file->getClientOriginalExtension();
 
-                // Ensure directory exists
                 if (!Storage::disk($disk)->exists($directory)) {
                     Storage::disk($disk)->makeDirectory($directory);
                 }
 
-                // Store the file
-                $path = $file->storeAs($directory, $fileName, $disk);
+                $file->storeAs($directory, $fileName, $disk);
 
-                // Create attachment record
                 $product->attachments()->create([
                     'disk'          => $disk,
                     'file_name'     => $fileName,
@@ -143,4 +130,3 @@ class ProductService
         }
     }
 }
-

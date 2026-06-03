@@ -2,34 +2,26 @@
 
 namespace App\Http\Requests\Admin\Category;
 
+use App\Http\Requests\Admin\Concerns\TranslatableRequestRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    use TranslatableRequestRules;
+
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): array
     {
-        return [
-            'name.*'        => 'required',
-            'description.*' => 'nullable',
-            // 'leader_id'      => 'required|exists:users,id',
-            // 'color'          => 'required|string|max:7',
-            // 'members'        => 'nullable|array',
-            // 'members.*'      => 'exists:users,id',
-        ];
+        return array_merge(
+            $this->translatableRules(['name' => true, 'description' => false]),
+            [
+                'color'  => 'nullable|string|max:20',
+                'status' => generalStatusRule(),
+            ]
+        );
     }
 }

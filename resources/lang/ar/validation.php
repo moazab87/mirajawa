@@ -147,7 +147,7 @@ return [
     |
     */
 
-    'attributes' => [
+    'attributes' => array_merge([
         'title_ar'              => 'العنوان بالعربية',
         'title_en'              => 'العنوان بالإنجليزية',
         'description_ar'        => 'الوصف بالعربية',
@@ -280,6 +280,6 @@ return [
         "cover"                => "الغلاف",
         "stock"                => "المخزون",
         "project_id"           => "المشروع",
-      ],
+      ], file_exists(__DIR__.'/dashboard_validation_attributes.php') ? require __DIR__.'/dashboard_validation_attributes.php' : []),
 
 ];

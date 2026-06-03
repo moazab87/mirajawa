@@ -15,7 +15,7 @@ class ProductController extends BaseCrudRepository
 
     public function __construct(protected ProductService $service)
     {
-        parent::__construct($service);
+        parent::__construct();
         $this->setData();
     }
 

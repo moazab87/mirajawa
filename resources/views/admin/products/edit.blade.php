@@ -5,9 +5,9 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <x-admin.breadcrumb :links="[
-            ['url' => route('admin.admin.index'), 'text' => __('admin.AdminPanel')],
+            ['url' => route('admin.admin.index'), 'text' => __('dashboard.admin_panel')],
             ['url' => $route, 'text' => $title],
-            ['url' => '#', 'text' => __('admin.edit')],
+            ['url' => '#', 'text' => __('dashboard.edit')],
         ]" />
 
         <div class="col-md-12">
@@ -19,45 +19,13 @@
                         @include('admin.layouts.partials.alerts')
 
                         <div class="row">
-                            {{-- Translatable Name Fields --}}
-                            @foreach (languages() as $lang)
-                                <div class="mb-3 col-md-6">
-                                    <label for="name_{{ $lang }}" class="form-label">
-                                        {{ __("admin.name_$lang") }}
-                                    </label>
-                                    <input type="text" class="form-control" id="name_{{ $lang }}"
-                                        name="name[{{ $lang }}]" placeholder="{{ __("admin.name_$lang") }}" required
-                                        @if ($loop->first) autofocus @endif
-                                        value="{{ old("name.$lang", $model->getTranslation('name', $lang)) }}">
-                                    @error("name.$lang")
-                                        @foreach ($errors->get("name.$lang") as $error)
-                                            <div class="text-danger">{{ $error }}</div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-                            @endforeach
-
-                            {{-- Translatable Description Fields --}}
-                            @foreach (languages() as $lang)
-                                <div class="mb-3 col-md-12">
-                                    <label for="description_{{ $lang }}" class="form-label">
-                                        {{ __("admin.description_$lang") }}
-                                    </label>
-                                    <textarea class="form-control" id="description_{{ $lang }}" name="description[{{ $lang }}]"
-                                        placeholder="{{ __("admin.description_$lang") }}" rows="3">{{ old("description.$lang", $model->getTranslation('description', $lang)) }}</textarea>
-                                    @error("description.$lang")
-                                        @foreach ($errors->get("description.$lang") as $error)
-                                            <div class="text-danger">{{ $error }}</div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-                            @endforeach
+                            @include('admin.shared.product-translatable-fields', ['model' => $model])
 
                             {{-- Link Field --}}
                             <div class="mb-3 col-md-12">
-                                <label for="link" class="form-label">{{ __('admin.link') }}</label>
+                                <label for="link" class="form-label">{{ __('dashboard.link') }}</label>
                                 <input type="url" class="form-control" id="link" name="link"
-                                    placeholder="{{ __('admin.link') }}"
+                                    placeholder="{{ __('dashboard.link') }}"
                                     value="{{ old('link', $model->link) }}">
                                 @error('link')
                                     <div class="text-danger">{{ $error }}</div>
@@ -65,21 +33,27 @@
                             </div>
 
                             {{-- Category Field --}}
-                            <div class="mb-3 col-md-12">
-                                <label for="category_id" class="form-label">{{ __('admin.category') }}</label>
-                                <select class="form-select" id="category_id" name="category_id" required>
-                                    <option value="">{{ __('admin.select_category') }}</option>
+                            <div class="mb-3 col-md-6">
+                                <label for="category_id" class="form-label">{{ __('dashboard.category') }}</label>
+                                <select class="form-select" id="category_id" name="category_id">
+                                    <option value="">{{ __('dashboard.select_category') }}</option>
                                     @foreach ($categories as $id => $name)
-                                        <option value="{{ $id }}"
-                                            {{ old('category_id', $model->category_id) == $id ? 'selected' : '' }}>
-                                            {{ $name }}
-                                        </option>
+                                        <option value="{{ $id }}" {{ old('category_id', $model->category_id) == $id ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
                                 </select>
-                                @error('category_id')
-                                    <div class="text-danger">{{ $error }}</div>
-                                @enderror
+                                @error('category_id')<div class="text-danger">{{ $message }}</div>@enderror
                             </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="product_group_id" class="form-label">{{ __('dashboard.product_group') }}</label>
+                                <select class="form-select" id="product_group_id" name="product_group_id">
+                                    <option value="">{{ __('dashboard.select') }}</option>
+                                    @foreach ($productGroups ?? [] as $id => $name)
+                                        <option value="{{ $id }}" {{ old('product_group_id', $model->product_group_id) == $id ? 'selected' : '' }}>{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('product_group_id')<div class="text-danger">{{ $message }}</div>@enderror
+                            </div>
+                            @include('admin.shared.status-select', ['model' => $model])
 
                             {{-- Existing Images --}}
                             @php
@@ -93,7 +67,7 @@
 
                             @if ($existingImages->count() > 0)
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">{{ __('admin.existing_images') }}</label>
+                                    <label class="form-label">{{ __('dashboard.existing_images') }}</label>
                                     <div class="row">
                                         @foreach ($existingImages as $attachment)
                                             <div class="col-md-3 mb-2 attachment-item" data-attachment-id="{{ $attachment->id }}">
@@ -103,7 +77,7 @@
                                                             class="btn btn-sm btn-icon btn-label-danger position-absolute top-0 end-0 m-1 delete-attachment" 
                                                             data-url="{{ route('admin.products.attachments.destroy', ['product' => $model->id, 'attachment' => $attachment->id]) }}"
                                                             style="z-index: 100;"
-                                                            title="{{ __('admin.delete') }}">
+                                                            title="{{ __('dashboard.delete') }}">
                                                             <i class="bx bx-trash"></i>
                                                         </button>
                                                         <a href="{{ asset('storage/attachments/products/' . $attachment->file_name) }}"
@@ -127,7 +101,7 @@
                             {{-- Existing Videos --}}
                             {{-- @if ($existingVideos->count() > 0)
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">{{ __('admin.existing_videos') }}</label>
+                                    <label class="form-label">{{ __('dashboard.existing_videos') }}</label>
                                     <div class="row">
                                         @foreach ($existingVideos as $attachment)
                                             <div class="col-md-3 mb-2 attachment-item" data-attachment-id="{{ $attachment->id }}">
@@ -137,7 +111,7 @@
                                                             class="btn btn-sm btn-icon btn-label-danger position-absolute top-0 end-0 m-1 delete-attachment" 
                                                             data-url="{{ route('admin.products.attachments.destroy', ['product' => $model->id, 'attachment' => $attachment->id]) }}"
                                                             style="z-index: 100;"
-                                                            title="{{ __('admin.delete') }}">
+                                                            title="{{ __('dashboard.delete') }}">
                                                             <i class="bx bx-trash"></i>
                                                         </button>
                                                         <a href="#video-{{ $attachment->id }}"
@@ -156,7 +130,7 @@
                                                         <div id="video-{{ $attachment->id }}" style="display: none;">
                                                             <video class="w-100" controls style="max-width: 100%;">
                                                                 <source src="{{ asset('storage/attachments/products/' . $attachment->file_name) }}" type="{{ $attachment->mime }}">
-                                                                Your browser does not support the video tag.
+                                                                {{ __('dashboard.video_not_supported') }}
                                                             </video>
                                                         </div>
                                                         <small class="text-muted d-block mt-1">{{ $attachment->original_name }}</small>
@@ -170,10 +144,10 @@
 
                             {{-- New Images Field --}}
                             <div class="mb-3 col-md-12">
-                                <label for="images" class="form-label">{{ __('admin.add_images') }}</label>
+                                <label for="images" class="form-label">{{ __('dashboard.add_images') }}</label>
                                 <input type="file" class="form-control" id="images" name="images[]"
                                     multiple accept="image/*">
-                                <small class="text-muted">{{ __('admin.images_hint') }}</small>
+                                <small class="text-muted">{{ __('dashboard.images_hint') }}</small>
                                 @error('images.*')
                                     <div class="text-danger">{{ $error }}</div>
                                 @enderror
@@ -181,10 +155,10 @@
 
                             {{-- New Videos Field --}}
                             {{-- <div class="mb-3 col-md-12">
-                                <label for="videos" class="form-label">{{ __('admin.add_videos') }}</label>
+                                <label for="videos" class="form-label">{{ __('dashboard.add_videos') }}</label>
                                 <input type="file" class="form-control" id="videos" name="videos[]"
                                     multiple accept="video/*">
-                                <small class="text-muted">{{ __('admin.videos_hint') }}</small>
+                                <small class="text-muted">{{ __('dashboard.videos_hint') }}</small>
                                 @error('videos.*')
                                     <div class="text-danger">{{ $error }}</div>
                                 @enderror
@@ -192,9 +166,9 @@
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary">{{ __('admin.update') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('dashboard.update') }}</button>
                             <a href="{{ url()->previous() }}" class="btn btn-outline-warning mx-1">
-                                {{ __('admin.back') }}
+                                {{ __('dashboard.back') }}
                             </a>
                         </div>
 
@@ -281,14 +255,14 @@
                 const $attachmentItem = $button.closest('.attachment-item');
 
                 Swal.fire({
-                    title: "{{ __('admin.confirm') }}",
-                    text: "{{ __('admin.delete_confirmation') }}",
+                    title: "{{ __('dashboard.confirm') }}",
+                    text: "{{ __('dashboard.delete_confirmation') }}",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: '{{ __('admin.confirm') }}',
-                    cancelButtonText: '{{ __('admin.cancel') }}',
+                    confirmButtonText: '{{ __('dashboard.confirm') }}',
+                    cancelButtonText: '{{ __('dashboard.cancel') }}',
                     buttonsStyling: false,
                 }).then((result) => {
                     if (result.value) {
@@ -300,11 +274,11 @@
                             },
                             dataType: "json",
                             success: (response) => {
-                                toastr.success("{{ __('admin.deleted_successfully') }}");
+                                toastr.success("{{ __('dashboard.deleted_successfully') }}");
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',
-                                    title: '{{ __('admin.the_selected_has_been_successfully_deleted') }}',
+                                    title: '{{ __('dashboard.the_selected_has_been_successfully_deleted') }}',
                                     showConfirmButton: false,
                                     timer: 1500,
                                 });
@@ -313,11 +287,11 @@
                                 });
                             },
                             error: (error) => {
-                                toastr.error("{{ __('admin.error_occurred') }}");
+                                toastr.error("{{ __('dashboard.error_occurred') }}");
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'error',
-                                    title: '{{ __('admin.error_occurred') }}',
+                                    title: '{{ __('dashboard.error_occurred') }}',
                                     showConfirmButton: false,
                                     timer: 1500,
                                 });

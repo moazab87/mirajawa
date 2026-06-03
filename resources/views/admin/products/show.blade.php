@@ -5,41 +5,57 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <x-admin.breadcrumb :links="[
-            ['url' => route('admin.admin.index'), 'text' => __('admin.AdminPanel')],
+            ['url' => route('admin.admin.index'), 'text' => __('dashboard.admin_panel')],
             ['url' => $route, 'text' => $title],
-            ['url' => '#', 'text' => __('admin.show')],
+            ['url' => '#', 'text' => __('dashboard.show')],
         ]" />
 
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">{{ __('admin.product_details') }}</h5>
+                    <h5 class="mb-0">{{ __('dashboard.products.show') }}</h5>
                     <div>
                         <a href="{{ route('admin.products.edit', $model->id) }}" class="btn btn-sm btn-primary">
-                            <i class="bx bx-edit"></i> {{ __('admin.edit') }}
+                            <i class="bx bx-edit"></i> {{ __('dashboard.edit') }}
                         </a>
                         <a href="{{ $route }}" class="btn btn-sm btn-secondary">
-                            <i class="bx bx-arrow-back"></i> {{ __('admin.back') }}
+                            <i class="bx bx-arrow-back"></i> {{ __('dashboard.back') }}
                         </a>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <strong>{{ __('admin.name') }}:</strong>
-                            <p>{{ $model->name }}</p>
+                            <strong>{{ __('dashboard.name') }}:</strong>
+                            <p>{{ $model->getDisplayTranslation('name') }}</p>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <strong>{{ __('admin.category') }}:</strong>
-                            <p>{{ $model->category?->name ?? __('admin.not_assigned') }}</p>
+                            <strong>{{ __('dashboard.status') }}:</strong>
+                            <p><x-admin.status-badge :status="$model->status" /></p>
                         </div>
-                        <div class="col-md-12 mb-3">
-                            <strong>{{ __('admin.description') }}:</strong>
-                            <p>{{ $model->description ?? '-' }}</p>
+                        <div class="col-md-6 mb-3">
+                            <strong>{{ __('dashboard.category') }}:</strong>
+                            <p>{{ $model->category?->getDisplayTranslation('name') ?? __('dashboard.not_assigned') }}</p>
                         </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>{{ __('dashboard.product_group') }}:</strong>
+                            <p>{{ $model->productGroup?->getDisplayTranslation('name') ?? __('dashboard.not_assigned') }}</p>
+                        </div>
+                        @foreach ([
+                            'description', 'packaging', 'country_of_origin', 'how_to_use',
+                            'storage_conditions', 'expiry_date_text', 'harvest_season', 'notes',
+                        ] as $field)
+                            @php $value = $model->getDisplayTranslation($field); @endphp
+                            @if(filled($value))
+                                <div class="col-md-12 mb-3">
+                                    <strong>{{ __('dashboard.' . $field) }}:</strong>
+                                    <p>{{ $value }}</p>
+                                </div>
+                            @endif
+                        @endforeach
                         @if ($model->link)
                             <div class="col-md-12 mb-3">
-                                <strong>{{ __('admin.link') }}:</strong>
+                                <strong>{{ __('dashboard.link') }}:</strong>
                                 <p>
                                     <a href="{{ $model->link }}" target="_blank" class="text-primary">
                                         <i class="bx bx-link-external"></i> {{ $model->link }}
@@ -58,7 +74,7 @@
 
                         @if ($images->count() > 0)
                             <div class="col-md-12 mb-3">
-                                <strong>{{ __('admin.images') }}:</strong>
+                                <strong>{{ __('dashboard.images') }}:</strong>
                                 <div class="row mt-2" data-fancybox="product-images-gallery">
                                     @foreach ($images as $attachment)
                                         <div class="col-md-3 mb-3">
@@ -83,7 +99,7 @@
 
                         @if ($videos->count() > 0)
                             <div class="col-md-12 mb-3">
-                                <strong>{{ __('admin.videos') }}:</strong>
+                                <strong>{{ __('dashboard.videos') }}:</strong>
                                 <div class="row mt-2">
                                     @foreach ($videos as $attachment)
                                         <div class="col-md-3 mb-3">
@@ -104,7 +120,7 @@
                                                     <div id="video-{{ $attachment->id }}" style="display: none;">
                                                         <video class="w-100" controls style="max-width: 100%;">
                                                             <source src="{{ asset('storage/attachments/products/' . $attachment->file_name) }}" type="{{ $attachment->mime }}">
-                                                            Your browser does not support the video tag.
+                                                            {{ __('dashboard.video_not_supported') }}
                                                         </video>
                                                     </div>
                                                     <small class="text-muted d-block mt-1">{{ $attachment->original_name }}</small>

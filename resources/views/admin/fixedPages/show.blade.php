@@ -5,46 +5,26 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <x-admin.breadcrumb :links="[
-            ['url' => route('admin.admin.index'), 'text' => __('admin.AdminPanel')],
+            ['url' => route('admin.admin.index'), 'text' => __('dashboard.admin_panel')],
             ['url' => $route, 'text' => $title],
-            ['url' => '#', 'text' => __('admin.show')],
+            ['url' => '#', 'text' => __('dashboard.show')],
         ]" />
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">{{ $model->name }}</h5>
-                        <div>
-                            <a href="{{ route('admin.fixedPages.edit', $model->id) }}" class="btn btn-primary">
-                                <i class="bx bx-edit-alt me-1"></i> {{ __('admin.edit') }}
-                            </a>
-                            <a href="{{ $route }}" class="btn btn-outline-secondary">
-                                <i class="bx bx-arrow-back me-1"></i> {{ __('admin.back') }}
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-header">
-                                        <h5 class="card-title mb-0">{{ __('admin.basic_information') }}</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <strong>{{ __('admin.name') }}:</strong> {{ $model->name }}
-                                        </div>
-                                        <div class="mb-3">
-                                            <strong>{{ __('admin.content') }}:</strong> {{ $model->content }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="card"><div class="card-body">
+            <h5>{{ $model->getDisplayTranslation('name') }}</h5>
+            <p><strong>{{ __('dashboard.slug') }}:</strong> {{ $model->slug }}</p>
+            <p><x-admin.status-badge :status="$model->status" /></p>
+            @foreach(languages() as $lang)
+                <hr><h6>{{ getLanguageName($lang) }}</h6>
+                <p><strong>{{ __('dashboard.sub_title') }}:</strong> {{ $model->getTranslation('sub_title', $lang) }}</p>
+                <p><strong>{{ __('dashboard.description') }}:</strong> {{ $model->getTranslation('description', $lang) }}</p>
+            @endforeach
+            @if($model->image_url)
+                <img src="{{ $model->image_url }}" class="img-fluid rounded mt-2" style="max-height:200px">
+            @endif
+            <div class="mt-3">
+                <a href="{{ route($editRoute, $model->id) }}" class="btn btn-primary">{{ __('dashboard.edit') }}</a>
+                <a href="{{ $route }}" class="btn btn-outline-secondary">{{ __('dashboard.back') }}</a>
             </div>
-        </div>
+        </div></div>
     </div>
 @endsection

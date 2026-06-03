@@ -5,63 +5,34 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <x-admin.breadcrumb :links="[
-            ['url' => route('admin.admin.index'), 'text' => __('admin.AdminPanel')],
+            ['url' => route('admin.admin.index'), 'text' => __('dashboard.admin_panel')],
             ['url' => $route, 'text' => $title],
-            ['url' => '#', 'text' => __('admin.edit')],
+            ['url' => '#', 'text' => __('dashboard.edit')],
         ]" />
 
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <form action="{{ $updateRoute }}" method="POST" enctype="multipart/form-data">
-                        @method('PUT')
-                        @csrf
-                        @include('admin.layouts.partials.alerts')
-
-                        <div class="row">
-                            {{-- Translatable Name Fields --}}
-                            @foreach (languages() as $lang)
-                                <div class="mb-3 col-md-6">
-                                    <label for="name_{{ $lang }}" class="form-label">
-                                        {{ __("admin.name_$lang") }}
-                                    </label>
-                                    <input type="text" class="form-control" id="name_{{ $lang }}"
-                                        name="name[{{ $lang }}]" placeholder="{{ __("admin.name_$lang") }}" required
-                                        @if ($loop->first) autofocus @endif
-                                        value="{{ old("name.$lang", $model->getTranslation('name', $lang)) }}">
-                                    @error("name.$lang")
-                                        @foreach ($errors->get("name.$lang") as $error)
-                                            <div class="text-danger">{{ $error }}</div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-                            @endforeach
-
-                            @foreach (languages() as $lang)
-                                <div class="mb-3 col-md-12">
-                                    <label for="description_{{ $lang }}" class="form-label">
-                                        {{ __("admin.description_$lang") }}
-                                    </label>
-                                    <textarea class="form-control" id="description_{{ $lang }}" name="description[{{ $lang }}]"
-                                        placeholder="{{ __("admin.description_$lang") }}" rows="3">{{ old("description.$lang", $model->getTranslation('description', $lang)) }}</textarea>
-                                    @error("description.$lang")
-                                        @foreach ($errors->get("description.$lang") as $error)
-                                            <div class="text-danger">{{ $error }}</div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-                            @endforeach
+        <div class="row">
+            <x-admin.form-card>
+                <form action="{{ $updateRoute }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    @include('admin.layouts.partials.alerts')
+                    <div class="row">
+                        @include('admin.shared.language-tabs', [
+                            'model' => $model,
+                            'fields' => [
+                                'name' => ['type' => 'text', 'label' => 'dashboard.name', 'required' => true],
+                                'description' => ['type' => 'textarea', 'label' => 'dashboard.description'],
+                            ],
+                        ])
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label">{{ __('dashboard.color') }}</label>
+                            <input type="color" name="color" class="form-control form-control-color" value="{{ old('color', $model->color ?? '#2563eb') }}">
                         </div>
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary">{{ __('admin.update') }}</button>
-                                <a href="{{ url()->previous() }}" class="btn btn-outline-warning mx-1">
-                                    {{ __('admin.back') }}
-                                </a>
-                            </div>
-
-                    </form>
-                </div>
-            </div>
+                        @include('admin.shared.status-select', ['model' => $model])
+                    </div>
+                    <x-admin.form-actions :submit-text="__('dashboard.edit')" :back-url="$route" />
+                </form>
+            </x-admin.form-card>
         </div>
     </div>
 @endsection

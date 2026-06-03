@@ -2,125 +2,98 @@
 
 namespace App\Services\Admin;
 
+use App\Models\Attachment;
 use App\Models\Slider;
-use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-class SliderService
+class SliderService extends AbstractAdminCrudService
 {
-    /**
-     * Static page meta shared between create/edit.
-     */
-    private function basePageData(): array
+    protected function modelClass(): string
     {
-        return [
-            'active'     => 'sliders',
-            'title'      => __('route.sliders.index'),
-            'singleName' => 'slider',
-            'route'      => route('admin.sliders.index'),
-        ];
+        return Slider::class;
     }
 
-    /**
-     * Helper to render create/edit with merged data.
-     */
-    private function renderForm(string $view, array $data = []): View
+    protected function activeKey(): string
     {
-        return view($view, array_merge(
-            $this->basePageData(),
-            $data
-        ));
+        return 'sliders';
     }
 
-    public function create(): View
+    protected function routeKey(): string
     {
-        return $this->renderForm('admin.sliders.create', [
-            'subTitle'   => __('route.sliders.create'),
-            'storeRoute' => route('admin.sliders.store'),
-        ]);
+        return 'sliders';
     }
 
-    public function edit(Slider $slider): View
+    protected function singleName(): string
     {
-        return $this->renderForm('admin.sliders.edit', [
-            'subTitle'    => __('route.sliders.edit'),
-            'updateRoute' => route('admin.sliders.update', $slider->id),
-            'model'       => $slider->loadMissing('attachments'),
-        ]);
+        return 'slider';
+    }
+
+    public function edit(Model $model): \Illuminate\Contracts\View\View
+    {
+        return parent::edit($model->loadMissing('attachments'));
     }
 
     public function store(array $data): array
     {
-        // Extract media file from data
         $media = $data['media'] ?? null;
         unset($data['media']);
 
         $slider = Slider::create($data);
 
-        // Handle media file (image or video)
-        if ($slider && $media && $media instanceof \Illuminate\Http\UploadedFile && $media->isValid()) {
+        if ($slider && $media instanceof UploadedFile && $media->isValid()) {
             $this->saveAttachment($slider, $media);
         }
 
-        return ['key' => 'success', 'msg' => __('admin.successMessageText')];
+        return ['key' => 'success', 'msg' => __('dashboard.sliders.created_successfully')];
     }
 
-    public function update(Slider $slider, array $data): array
+    public function update(Model $model, array $data): array
     {
-        // Extract media file from data
         $media = $data['media'] ?? null;
         unset($data['media']);
 
-        $updated = $slider->update($data);
+        $model->update($data);
 
-        // Handle new media file (image or video)
-        // If new media is uploaded, delete old attachments and save new one
-        if ($updated && $media && $media instanceof \Illuminate\Http\UploadedFile && $media->isValid()) {
-            // Delete existing attachments
-            foreach ($slider->attachments as $attachment) {
-                $filePath = storage_path('app/public/attachments/sliders/' . $attachment->file_name);
-                if (file_exists($filePath)) {
-                    unlink($filePath);
-                }
+        if ($media instanceof UploadedFile && $media->isValid()) {
+            foreach ($model->attachments as $attachment) {
+                $this->deleteAttachmentFile($attachment);
                 $attachment->delete();
             }
-
-            // Save new attachment
-            $this->saveAttachment($slider, $media);
+            $this->saveAttachment($model, $media);
         }
 
-        return ['key' => 'success', 'msg' => __('admin.editSuccessMessageText')];
+        return ['key' => 'success', 'msg' => __('dashboard.sliders.updated_successfully')];
     }
 
-    /**
-     * Save a single attachment (image or video) for the slider.
-     */
     private function saveAttachment(Slider $slider, UploadedFile $file): void
     {
-        if ($file->isValid()) {
-            $disk = 'public_direct';
-            $directory = 'attachments/sliders';
-            $fileName = time() . '_' . rand(1111, 9999) . '.' . $file->getClientOriginalExtension();
+        $disk = 'public_direct';
+        $directory = 'attachments/sliders';
+        $fileName = time() . '_' . rand(1111, 9999) . '.' . $file->getClientOriginalExtension();
 
-            // Ensure directory exists
-            if (!Storage::disk($disk)->exists($directory)) {
-                Storage::disk($disk)->makeDirectory($directory);
-            }
+        if (!Storage::disk($disk)->exists($directory)) {
+            Storage::disk($disk)->makeDirectory($directory);
+        }
 
-            // Store the file
-            $file->storeAs($directory, $fileName, $disk);
+        $file->storeAs($directory, $fileName, $disk);
 
-            // Create attachment record
-            $slider->attachments()->create([
-                'disk'          => $disk,
-                'file_name'     => $fileName,
-                'original_name' => $file->getClientOriginalName(),
-                'mime'          => $file->getMimeType(),
-                'size'          => $file->getSize(),
-                'variants'      => null,
-            ]);
+        $slider->attachments()->create([
+            'disk'          => $disk,
+            'file_name'     => $fileName,
+            'original_name' => $file->getClientOriginalName(),
+            'mime'          => $file->getMimeType(),
+            'size'          => $file->getSize(),
+            'variants'      => null,
+        ]);
+    }
+
+    private function deleteAttachmentFile(Attachment $attachment): void
+    {
+        $filePath = storage_path('app/public/attachments/sliders/' . $attachment->file_name);
+        if (file_exists($filePath)) {
+            unlink($filePath);
         }
     }
 }
-

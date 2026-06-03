@@ -4,6 +4,7 @@ namespace App\Base\Repositories;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 abstract class BaseCrudRepository extends Controller
 {
@@ -16,8 +17,8 @@ abstract class BaseCrudRepository extends Controller
     public function __construct()
     {
         $this->setData();
-        $this->fileName     = $this->model::FILE_KEY ?? null;
-        $this->folderName   = $this->model::FOLDER_NAME ?? null;
+        $this->fileName     = defined($this->model::class . '::FILE_KEY') ? $this->model::FILE_KEY : null;
+        $this->folderName   = defined($this->model::class . '::FOLDER_NAME') ? $this->model::FOLDER_NAME : null;
     }
 
     abstract protected function setData();
@@ -55,7 +56,7 @@ abstract class BaseCrudRepository extends Controller
         return view("admin.{$this->folderName}.create", array_merge(
             $this->getViewData(),
             [
-                'subTitle'   => __("route.{$this->folderName}.create"),
+                'subTitle'   => dashboard_trans($this->folderName, 'create'),
                 'storeRoute' => route("admin.{$this->folderName}.store"),
             ]
         ));
@@ -66,8 +67,8 @@ abstract class BaseCrudRepository extends Controller
         $data = $this->model->create(app($this->storeRequest)->validated());
 
         return $data
-            ? redirect()->route("admin.{$this->folderName}.index")->with('success', trans('admin.successMessageText'))
-            : redirect()->back()->with('failed', trans('admin.faildMessageText'));
+            ? redirect()->route("admin.{$this->folderName}.index")->with('success', dashboard_trans($this->folderName, 'created_successfully'))
+            : redirect()->back()->with('failed', __('dashboard.messages.failed'));
     }
 
     public function edit($id)
@@ -77,7 +78,7 @@ abstract class BaseCrudRepository extends Controller
         return view("admin.{$this->folderName}.edit", array_merge(
             $this->getViewData(),
             [
-                'subTitle'    => __("route.{$this->folderName}.edit"),
+                'subTitle'    => dashboard_trans($this->folderName, 'edit'),
                 'updateRoute' => route("admin.{$this->folderName}.update", $id),
             ],
             compact('model')
@@ -89,7 +90,7 @@ abstract class BaseCrudRepository extends Controller
         $data = $this->model->findOrFail($id)->update(app($this->updateRequest)->validated());
 
         return $data
-            ? redirect()->route("admin.{$this->folderName}.index")->with('success', trans('admin.editSuccessMessageText'))
+            ? redirect()->route("admin.{$this->folderName}.index")->with('success', dashboard_trans($this->folderName, 'updated_successfully'))
             : redirect()->back()->with('failed', trans('admin.faildMessageText'));
     }
 
@@ -119,7 +120,7 @@ abstract class BaseCrudRepository extends Controller
 
         return view("admin.{$this->folderName}.show", array_merge(
             $this->getViewData(),
-            ['subTitle' => __("route.{$this->folderName}.show")],
+            ['subTitle' => dashboard_trans($this->folderName, 'show')],
             compact('model')
         ));
     }
@@ -127,15 +128,18 @@ abstract class BaseCrudRepository extends Controller
     // Helper methods
     protected function getViewData(): array
     {
+        $module = dashboard_module_key($this->folderName);
+        $routePrefix = "admin.{$this->folderName}";
+
         return [
             'active'       => $this->folderName,
-            'title'        => trans("route.{$this->folderName}.index"),
+            'title'        => __("dashboard.{$module}.index"),
             'singleName'   => $this->model::SINGLE_NAME,
-            'route'        => route("admin.{$this->folderName}.index"),
-            'createRoute'  => route("admin.{$this->folderName}.create"),
-            'editRoute'    => "admin.{$this->folderName}.edit",
-            'deleteRoute'  => "admin.{$this->folderName}.destroy",
-            'showRoute'    => "admin.{$this->folderName}.show",
+            'route'        => route("{$routePrefix}.index"),
+            'createRoute'  => Route::has("{$routePrefix}.create") ? route("{$routePrefix}.create") : null,
+            'editRoute'    => Route::has("{$routePrefix}.edit") ? "{$routePrefix}.edit" : null,
+            'deleteRoute'  => Route::has("{$routePrefix}.destroy") ? "{$routePrefix}.destroy" : null,
+            'showRoute'    => Route::has("{$routePrefix}.show") ? "{$routePrefix}.show" : null,
         ];
     }
 

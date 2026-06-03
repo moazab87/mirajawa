@@ -5,46 +5,39 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <x-admin.breadcrumb :links="[
-            ['url' => route('admin.admin.index'), 'text' => __('admin.AdminPanel')],
+            ['url' => route('admin.admin.index'), 'text' => __('dashboard.admin_panel')],
             ['url' => $route, 'text' => $title],
-            ['url' => '#', 'text' => __('admin.show')],
+            ['url' => '#', 'text' => __('dashboard.show')],
         ]" />
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">{{ $model->name }}</h5>
-                        <div>
-                            <a href="{{ route('admin.categories.edit', $model->id) }}" class="btn btn-primary">
-                                <i class="bx bx-edit-alt me-1"></i> {{ __('admin.edit') }}
-                            </a>
-                            <a href="{{ $route }}" class="btn btn-outline-secondary">
-                                <i class="bx bx-arrow-back me-1"></i> {{ __('admin.back') }}
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-header">
-                                        <h5 class="card-title mb-0">{{ __('admin.basic_information') }}</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <strong>{{ __('admin.name') }}:</strong> {{ $model->name }}
-                                        </div>
-                                        <div class="mb-3">
-                                            <strong>{{ __('admin.description') }}:</strong> {{ $model->description }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-admin.show-page
+            :title="$model->getDisplayTranslation('name')"
+            :edit-route="route('admin.categories.edit', $model->id)"
+            :back-route="$route"
+            icon="bx-folder"
+        >
+            <x-slot name="headerMeta">
+                <x-admin.status-badge :status="$model->status" />
+            </x-slot>
+
+            <x-admin.detail-item :label="__('dashboard.name')" icon="bx-rename">
+                {{ $model->getDisplayTranslation('name') }}
+            </x-admin.detail-item>
+
+            <x-admin.detail-item :label="__('dashboard.color')" icon="bx-palette">
+                @if($model->color)
+                    <span class="d-inline-flex align-items-center gap-2">
+                        <span style="width: 1rem; height: 1rem; border-radius: 50%; background: {{ $model->color }}; display: inline-block;"></span>
+                        {{ $model->color }}
+                    </span>
+                @else
+                    —
+                @endif
+            </x-admin.detail-item>
+
+            <x-admin.detail-item :label="__('dashboard.description')" icon="bx-text" :full-width="true">
+                {{ $model->getDisplayTranslation('description') ?: '—' }}
+            </x-admin.detail-item>
+        </x-admin.show-page>
     </div>
 @endsection

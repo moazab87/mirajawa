@@ -1,50 +1,48 @@
 <script>
-    $(document).on('click' , '.delete-row', function (e) {
-        e.preventDefault()
+    $(document).on('click', '.delete-row', function (e) {
+        e.preventDefault();
+        const $row = $(this);
         Swal.fire({
-            title: "{{__('admin.confirm')}}",
-            text: "{{__('admin.delete_confirmation')}}",
+            title: "{{ __('dashboard.confirm') }}",
+            text: "{{ __('dashboard.delete_confirmation') }}",
             type: 'warning',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: '{{__('admin.confirm')}}',
+            confirmButtonText: '{{ __('dashboard.confirm') }}',
             confirmButtonClass: 'btn btn-primary',
-            cancelButtonText: '{{__('admin.cancel')}}',
+            cancelButtonText: '{{ __('dashboard.cancel') }}',
             cancelButtonClass: 'btn btn-danger ml-1',
             buttonsStyling: false,
-            }).then( (result) => {
+        }).then((result) => {
             if (result.value) {
                 $.ajax({
                     type: 'delete',
-                    mehtod: 'delete',
-                    url: $(this).data('url'),
+                    url: $row.data('url'),
                     data: {
-                        "_token": "{{ csrf_token() }}",
+                        _token: "{{ csrf_token() }}",
                     },
-                    dataType: "json",
-                    success:  (response) => {
-                        toastr.success("{{ __('admin.deleted_successfully') }}")
-                        Swal.fire(
-                        {
+                    dataType: 'json',
+                    success: function () {
+                        toastr.success("{{ __('dashboard.deleted_successfully') }}");
+                        Swal.fire({
                             position: 'center',
                             icon: 'success',
-                            title: '{{__('admin.the_selected_has_been_successfully_deleted')}}',
+                            title: '{{ __('dashboard.the_selected_has_been_successfully_deleted') }}',
                             showConfirmButton: false,
                             timer: 1500,
                             confirmButtonClass: 'btn btn-primary',
                             buttonsStyling: false,
                         });
-                        $(this).closest('tr').remove();
+                        $row.closest('tr').remove();
                     },
-                    error: (error) => {
-                        toastr.error("{{ __('admin.error_occurred') }}")
-                        Swal.fire(
-                        {
+                    error: function () {
+                        toastr.error("{{ __('dashboard.error_occurred') }}");
+                        Swal.fire({
                             position: 'center',
                             icon: 'error',
-                            title: '{{__('admin.error')}}',
+                            title: '{{ __('dashboard.messages.error') }}',
                             showConfirmButton: false,
                             timer: 1500,
                             confirmButtonClass: 'btn btn-primary',
@@ -53,6 +51,6 @@
                     }
                 });
             }
-        })
+        });
     });
 </script>

@@ -14,7 +14,7 @@ class SettingsController extends Controller
     {
         return view('admin.settings.index',
             [
-                'title'         => trans('route.settings'),
+                'title'         => __('dashboard.settings.index'),
                 'active'        => 'settings',
                 'settings'      => Settings::get()->keyBy('key')->all(),
             ]);
@@ -50,11 +50,11 @@ class SettingsController extends Controller
 
             DB::commit();
 
-            session()->flash('success', trans('admin.successMessageText'));
+            session()->flash('success', __('dashboard.settings.updated_successfully'));
         } catch (\Exception $e) {
             dd($e->getMessage());
             DB::rollBack();
-            session()->flash('error', trans('admin.errorMessageText'));
+            session()->flash('error', __('dashboard.messages.error'));
         }
 
         return back();

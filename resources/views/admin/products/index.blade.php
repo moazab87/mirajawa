@@ -5,22 +5,22 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <x-admin.breadcrumb :links="[
-            ['url' => route('admin.admin.index'), 'text' => __('admin.AdminPanel')],
+            ['url' => route('admin.admin.index'), 'text' => __('dashboard.admin_panel')],
             ['url' => '#', 'text' => $title],
         ]" />
 
-        <x-admin.table :headers="['#', __('admin.name'), __('admin.category'), __('admin.link'), __('admin.actions')]" :createRoute="$createRoute" :title="$title" :buttonText="__('admin.add')"
+        <x-admin.table :headers="['#', __('dashboard.name'), __('dashboard.category'), __('dashboard.link'), __('dashboard.actions')]" :createRoute="$createRoute" :title="$title" :buttonText="__('dashboard.add')"
             :search="true" :indexRoute="$route">
 
             @forelse($models as $model)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $model->name }}</td>
-                    <td>{{ $model->category?->name ?? __('admin.not_assigned') }}</td>
+                    <td>{{ $model->category?->name ?? __('dashboard.not_assigned') }}</td>
                     <td>
                         @if($model->link)
                             <a href="{{ $model->link }}" target="_blank" class="text-primary">
-                                <i class="bx bx-link-external"></i> {{ __('admin.view_link') }}
+                                <i class="bx bx-link-external"></i> {{ __('dashboard.view_link') }}
                             </a>
                         @else
                             <span class="text-muted">-</span>
@@ -36,7 +36,7 @@
                         <div class="d-flex flex-column align-items-center">
                             <i class="bx bx-folder-open text-secondary mb-2" style="font-size: 3rem;"></i>
                             <h5 class="text-muted">
-                                {{ __('admin.no_data_available') ?? 'No data available' }}</h5>
+                                {{ __('dashboard.no_data_available') }}</h5>
                         </div>
                     </td>
                 </tr>

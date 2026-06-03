@@ -85,6 +85,67 @@ return [
         "show" => "Show Social Media"
     ],
 
+    "website_content"   => "Website Content",
+    "products_section"  => "Products",
+    "contact_requests"  => "Contact & Requests",
+
+    "productGroups" => [
+        'index' => 'Product Groups',
+        "create" => "Add Product Group",
+        "edit" => "Edit Product Group",
+        "show" => "Show Product Group",
+    ],
+    "addresses" => [
+        'index' => 'Addresses',
+        "create" => "Add Address",
+        "edit" => "Edit Address",
+        "show" => "Show Address",
+    ],
+    "branches" => [
+        'index' => 'Branches',
+        "create" => "Add Branch",
+        "edit" => "Edit Branch",
+        "show" => "Show Branch",
+    ],
+    "faqs" => [
+        'index' => 'FAQs',
+        "create" => "Add FAQ",
+        "edit" => "Edit FAQ",
+        "show" => "Show FAQ",
+    ],
+    "profiles" => [
+        'index' => 'Profiles',
+        "create" => "Add Profile",
+        "edit" => "Edit Profile",
+        "show" => "Show Profile",
+    ],
+    "histories" => [
+        'index' => 'Histories',
+        "create" => "Add History",
+        "edit" => "Edit History",
+        "show" => "Show History",
+    ],
+    "informationBlocks" => [
+        'index' => 'Information Blocks',
+        "create" => "Add Information Block",
+        "edit" => "Edit Information Block",
+        "show" => "Show Information Block",
+    ],
+    "contactInformation" => [
+        'index' => 'Contact Information',
+        "create" => "Add Contact Card",
+        "edit" => "Edit Contact Card",
+        "show" => "Show Contact Card",
+    ],
+    "contactMessages" => [
+        'index' => 'Contact Messages',
+        "show" => "Contact Message",
+    ],
+    "informationRequests" => [
+        'index' => 'Information Requests',
+        "show" => "Information Request",
+    ],
+
     "en" => "English",
     "ja" => "日本語",
     "ar" => "العربية",

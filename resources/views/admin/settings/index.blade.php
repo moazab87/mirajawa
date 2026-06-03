@@ -2,57 +2,49 @@
 
 @section('title', $title)
 
-
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <!-- Breadcrumb -->
         <x-admin.breadcrumb :links="[
-            ['url' => route('admin.admin.index'), 'text' => __('admin.AdminPanel')],
-            ['url' => route('admin.settings.index'), 'text' => $title],
+            ['url' => route('admin.admin.index'), 'text' => __('dashboard.admin_panel')],
+            ['url' => route('admin.settings.index'), 'text' => __('dashboard.settings.index')],
         ]" />
 
-        <!-- Settings Form -->
         <div class="row" id="table-bordered">
             <div class="col-12">
                 {{ Form::open(['url' => route('admin.settings.update'), 'files' => 'true']) }}
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">{{ $title }}</h5>
-                        <p class="text-muted mb-0">
-                            @lang('admin.manage_all_system_settings')
-                        </p>
+                <div class="card dash-card">
+                    <div class="card-header border-bottom">
+                        <h5 class="dash-page-title mb-1">{{ __('dashboard.settings.index') }}</h5>
+                        <p class="dash-text-muted mb-0 small">@lang('dashboard.manage_all_system_settings')</p>
                     </div>
                     <div class="card-body">
-                        <!-- Settings Tabs -->
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general"
-                                    aria-controls="home" role="tab" aria-selected="true">
-                                    <i class="fas fa-cogs"></i> {{ trans('admin.generalSettings') }}
-                                </a>
+                                <a class="nav-link active" data-bs-toggle="tab" href="#general">@lang('dashboard.settings.general')</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="images-tab" data-bs-toggle="tab" href="#images"
-                                    aria-controls="images" role="tab" aria-selected="false">
-                                    <i class="fas fa-image"></i> {{ trans('admin.imagesSettings') }}
-                                </a>
+                                <a class="nav-link" data-bs-toggle="tab" href="#website">@lang('dashboard.settings.website')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#images">@lang('dashboard.settings.images')</a>
                             </li>
                         </ul>
-
-                        <!-- Tab Content -->
                         <div class="tab-content mt-3">
-                            <div class="tab-pane active" id="general" aria-labelledby="general-tab" role="tabpanel">
+                            <div class="tab-pane active" id="general">
                                 @include('admin.settings.includes.general')
                             </div>
-                            <div class="tab-pane" id="images" aria-labelledby="images-tab" role="tabpanel">
+                            <div class="tab-pane" id="website">
+                                @include('admin.settings.includes.website')
+                            </div>
+                            <div class="tab-pane" id="images">
                                 @include('admin.settings.includes.images')
                             </div>
                         </div>
                     </div>
-
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">
-                            <i class="bx bx-save me-1"></i> {{ trans('admin.Save changes') }}
+                            <i class="bx bx-save"></i>
+                            {{ __('dashboard.save') }}
                         </button>
                     </div>
                 </div>
@@ -61,4 +53,3 @@
         </div>
     </div>
 @endsection
-

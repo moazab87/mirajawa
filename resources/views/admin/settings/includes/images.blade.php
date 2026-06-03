@@ -1,19 +1,19 @@
-<div class="row justify-content-center">
-
-    <x-admin.uploadImage.image i="1" name="logo_ja" multiple="" image="{{ getSettingImageLink('logo_ja') }}"
-        title="{{ __('admin.logo_ja') }}" />
-
-
-    <x-admin.uploadImage.image i="2" name="logo_en" multiple="" image="{{ getSettingImageLink('logo_en') }}"
-        title="{{ __('admin.logo_en') }}" />
-
-
-    <x-admin.uploadImage.image i="3" name="logo_ar" multiple="" image="{{ getSettingImageLink('logo_ar') }}"
-        title="{{ __('admin.logo_ar') }}" />
-
-    {{-- <x-admin.uploadImage.image i="4" name="logo_favicon" multiple="" image="{{ getSettingImageLink('logo_favicon') }}"
-        title="{{ __('admin.logo_favicon') }}" /> --}}
-    <x-admin.uploadImage.image i="3" name="logo_favicon" multiple="" image="{{ getSettingImageLink('logo_favicon') }}"
-        title="{{ __('admin.logo_favicon') }}" />
-
+<!-- form -->
+<div class="row">
+    <div class="col-12 col-md-6">
+        <x-admin.uploadImage.image :name="'logo_ja'" :uploadedImage="getSettingImageLink('logo', false, 'ja')" :required="false"
+            title="{{ __('dashboard.settings.logo_ja') }}" />
+    </div>
+    <div class="col-12 col-md-6">
+        <x-admin.uploadImage.image :name="'logo_en'" :uploadedImage="getSettingImageLink('logo', false, 'en')" :required="false"
+            title="{{ __('dashboard.settings.logo_en') }}" />
+    </div>
+    <div class="col-12 col-md-6">
+        <x-admin.uploadImage.image :name="'logo_ar'" :uploadedImage="getSettingImageLink('logo', false, 'ar')" :required="false"
+            title="{{ __('dashboard.settings.logo_ar') }}" />
+    </div>
+    <div class="col-12 col-md-6">
+        <x-admin.uploadImage.image :name="'logo_favicon'" :uploadedImage="getSettingImageLink('logo_favicon')" :required="false"
+            title="{{ __('dashboard.settings.logo_favicon') }}" />
+    </div>
 </div>

@@ -2,30 +2,33 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RoleTypeEnum;
-use App\Models\Team;
-use App\Models\User;
+use App\Enums\GeneralStatusEnum;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $owner = User::query()->first();
+        $categories = [
+            ['name' => ['ar' => 'فواكه مجمدة', 'en' => 'Frozen Fruits', 'ja' => '冷凍果物'], 'color' => '#D72638'],
+            ['name' => ['ar' => 'خضروات مجمدة', 'en' => 'Frozen Vegetables', 'ja' => '冷凍野菜'], 'color' => '#2E8B57'],
+            ['name' => ['ar' => 'منتجات مجففة', 'en' => 'Dehydrated Products', 'ja' => '乾燥製品'], 'color' => '#C58B2B'],
+        ];
 
-        if (! $owner) {
-            $this->command->warn('⚠️ No users found. Skipping CategorySeeder.');
-            return;
+        foreach ($categories as $data) {
+            $category = Category::all()->first(
+                fn ($item) => $item->getTranslation('name', 'en') === $data['name']['en']
+            );
+
+            $payload = [
+                'name'        => $data['name'],
+                'description' => ['ar' => null, 'en' => null, 'ja' => null],
+                'color'       => $data['color'],
+                'status'      => GeneralStatusEnum::ACTIVE->value,
+            ];
+
+            $category ? $category->update($payload) : Category::create($payload);
         }
-
-        DB::table('categories')->insertGetId([
-            'name'        => json_encode(['en' => 'Market Category', 'ja' => '市場カテゴリ']),
-            'description' => json_encode(['en' => 'The main default category for the system.', 'ja' => 'システムのデフォルトカテゴリです。']),
-            // 'leader_id'   => $owner->id,
-            // 'color'       => '#2563eb',
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
     }
 }

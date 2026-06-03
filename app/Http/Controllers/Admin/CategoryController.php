@@ -14,7 +14,7 @@ class CategoryController extends BaseCrudRepository
 
     public function __construct(protected CategoryService $service)
     {
-        parent::__construct($service);
+        parent::__construct();
         $this->setData();
     }
 

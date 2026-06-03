@@ -15,7 +15,7 @@ class SliderController extends BaseCrudRepository
 
     public function __construct(protected SliderService $service)
     {
-        parent::__construct($service);
+        parent::__construct();
         $this->setData();
     }
 

@@ -5,60 +5,37 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <x-admin.breadcrumb :links="[
-            ['url' => route('admin.admin.index'), 'text' => __('admin.AdminPanel')],
+            ['url' => route('admin.admin.index'), 'text' => __('dashboard.admin_panel')],
             ['url' => $route, 'text' => $title],
-            ['url' => '#', 'text' => __('admin.create')],
+            ['url' => '#', 'text' => __('dashboard.create')],
         ]" />
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <form action="{{ $storeRoute }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @include('admin.layouts.partials.alerts')
-                        <div class="row">
-                            <!-- Translatable Name Fields -->
-                            @foreach (languages() as $lang)
-                                <div class="mb-3 col-md-6">
-                                    <label for="name_{{ $lang }}" class="form-label">
-                                        {{ __("admin.name_$lang") }}
-                                    </label>
-                                    <input type="text" class="form-control" id="name_{{ $lang }}"
-                                        name="name[{{ $lang }}]" placeholder="{{ __("admin.name_$lang") }}" required
-                                        autofocus value="{{ old("name.$lang") }}">
-                                    @error("name.$lang")
-                                        @foreach ($errors->get("name.$lang") as $error)
-                                            <div class="text-danger">{{ $error }}</div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-                            @endforeach
-                              @foreach (languages() as $lang)
-                                <div class="mb-3 col-md-12">
-                                    <label for="content_{{ $lang }}" class="form-label">
-                                        {{ __("admin.content_$lang") }}
-                                    </label>
-                                    <textarea class="form-control" id="content_{{ $lang }}" name="content[{{ $lang }}]"
-                                        placeholder="{{ __("admin.content_$lang") }}" rows="3">{{ old("content.$lang") }}</textarea>
-                                    @error("content.$lang")
-                                        @foreach ($errors->get("content.$lang") as $error)
-                                            <div class="text-danger">{{ $error }}</div>
-                                        @endforeach
-                                    @enderror
-                                </div>
-                            @endforeach
-
-
-                        </div>
-
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary">{{ __('admin.create') }}</button>
-                            <a href="{{ url()->previous() }}" type="reset"
-                                class="btn btn-outline-warning mx-1">{{ __('admin.back') }}</a>
-                        </div>
-
-                    </form>
+        <div class="card"><div class="card-body">
+            <form action="{{ $storeRoute }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @include('admin.layouts.partials.alerts')
+                <div class="row">
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label">{{ __('dashboard.slug') }}</label>
+                        <input type="text" name="slug" class="form-control" value="{{ old('slug') }}" placeholder="{{ __('dashboard.slug_placeholder') }}">
+                    </div>
+                    @include('admin.shared.language-tabs', [
+                        'fields' => [
+                            'name' => ['type' => 'text', 'label' => 'dashboard.name', 'required' => true],
+                            'sub_title' => ['type' => 'text', 'label' => 'dashboard.sub_title'],
+                            'description' => ['type' => 'textarea', 'label' => 'dashboard.description'],
+                        ],
+                    ])
+                    @include('admin.shared.status-select')
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label">{{ __('dashboard.image') }}</label>
+                        <input type="file" name="image" class="form-control" accept="image/*">
+                    </div>
                 </div>
-            </div>
-        </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <button type="submit" class="btn btn-primary">{{ __('dashboard.create') }}</button>
+                    <a href="{{ url()->previous() }}" class="btn btn-outline-warning mx-1">{{ __('dashboard.back') }}</a>
+                </div>
+            </form>
+        </div></div>
     </div>
 @endsection

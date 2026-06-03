@@ -3,73 +3,60 @@
 namespace App\Services\Admin;
 
 use App\Models\FixedPage;
-use App\Models\User;
-use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 
-class FixedPageService
+class FixedPageService extends AbstractAdminCrudService
 {
-    private function dropdowns(): array
+    protected function modelClass(): string
     {
-        $members = User::query()
-            ->select('id', 'name')
-            ->orderBy('name')
-            ->pluck('name', 'id')
-            ->toArray();
-
-        return compact('members');
+        return FixedPage::class;
     }
 
-    /**
-     * Static page meta shared between create/edit.
-     */
-    private function basePageData(): array
+    protected function activeKey(): string
     {
-        return [
-            'active'     => 'fixedPages',
-            'title'      => __('route.fixedPages.index'),
-            'singleName' => 'fixedPage',
-            'route'      => route('admin.fixedPages.index'),
-        ];
+        return 'fixedPages';
     }
 
-    /**
-     * Helper to render create/edit with merged data.
-     */
-    private function renderForm(string $view, array $data = []): View
+    protected function routeKey(): string
     {
-        return view($view, array_merge(
-            $this->basePageData(),
-            $this->dropdowns(),
-            $data
-        ));
+        return 'fixedPages';
     }
 
-    public function create(): View
+    protected function singleName(): string
     {
-        return $this->renderForm('admin.fixedPages.create', [
-            'subTitle'   => __('route.fixedPages.create'),
-            'storeRoute' => route('admin.fixedPages.store'),
-        ]);
-    }
-
-    public function edit(FixedPage $fixedPage): View
-    {
-        return $this->renderForm('admin.fixedPages.edit', [
-            'subTitle'    => __('route.fixedPages.edit'),
-            'updateRoute' => route('admin.fixedPages.update', $fixedPage->id),
-            'model'       => $fixedPage,
-        ]);
+        return 'fixedPage';
     }
 
     public function store(array $data): array
     {
+        $data = $this->prepareData($data);
         FixedPage::create($data);
-        return ['key' => 'success', 'msg' => __('admin.successMessageText')];
+
+        return ['key' => 'success', 'msg' => __('dashboard.static_pages.created_successfully')];
     }
 
-    public function update(FixedPage $fixedPage, array $data): array
+    public function update(Model $model, array $data): array
     {
-        $fixedPage->update($data);
-        return ['key' => 'success', 'msg' => __('admin.editSuccessMessageText')];
+        $data = $this->prepareData($data, $model);
+
+        return parent::update($model, $data);
+    }
+
+    private function prepareData(array $data, ?FixedPage $model = null): array
+    {
+        if (empty($data['slug'])) {
+            $data['slug'] = FixedPage::generateSlug($data['name'] ?? []);
+        }
+
+        if (isset($data['image']) && is_file($data['image'])) {
+            if ($model?->image) {
+                deleteImage(public_path('uploads/fixedPages/' . $model->image));
+            }
+            $data['image'] = uploadImage(FixedPage::IMAGEPATH, $data['image']);
+        } else {
+            unset($data['image']);
+        }
+
+        return $data;
     }
 }

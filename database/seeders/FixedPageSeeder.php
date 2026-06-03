@@ -2,42 +2,39 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RoleTypeEnum;
-use App\Models\Team;
-use App\Models\User;
+use App\Enums\GeneralStatusEnum;
+use App\Models\FixedPage;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class FixedPageSeeder extends Seeder
 {
     public function run(): void
     {
-        $owner = User::query()->first();
+        $pages = [
+            'privacy-policy' => ['ar' => 'سياسة الخصوصية', 'en' => 'Privacy Policy', 'ja' => 'プライバシーポリシー'],
+            'our-factory' => ['ar' => 'مصنعنا', 'en' => 'Our Factory', 'ja' => '私たちの工場'],
+            'welcome' => ['ar' => 'ترحيب', 'en' => 'Welcome', 'ja' => 'ようこそ'],
+            'history' => ['ar' => 'تاريخ', 'en' => 'History', 'ja' => '沿革'],
+            'why-us' => ['ar' => 'لماذا نحن', 'en' => 'Why Us', 'ja' => '私たちが選ばれる理由'],
+            'products' => ['ar' => 'منتجات', 'en' => 'Products', 'ja' => '製品'],
+            'company-information' => ['ar' => 'معلومات الشركة', 'en' => 'Company Information', 'ja' => '会社情報'],
+            'about-us' => ['ar' => 'عنا', 'en' => 'About Us', 'ja' => '私たちについて'],
+            'information' => ['ar' => 'معلومات', 'en' => 'Information', 'ja' => '情報'],
+            'business' => ['ar' => 'الأعمال', 'en' => 'Business', 'ja' => '事業内容'],
+            'greetings' => ['ar' => 'تحيات', 'en' => 'Greetings', 'ja' => 'ご挨拶'],
+        ];
 
-        if (! $owner) {
-            $this->command->warn('⚠️ No users found. Skipping FixedPageSeeder.');
-            return;
+        foreach ($pages as $slug => $name) {
+            FixedPage::updateOrCreate(
+                ['slug' => $slug],
+                [
+                    'name'        => $name,
+                    'sub_title'   => ['ar' => null, 'en' => null, 'ja' => null],
+                    'description' => ['ar' => null, 'en' => null, 'ja' => null],
+                    'image'       => null,
+                    'status'      => GeneralStatusEnum::ACTIVE->value,
+                ]
+            );
         }
-
-        DB::table('fixed_pages')->insertGetId([
-            'name'        => json_encode(['en' => 'About Us', 'ja' => '私たちについて']),
-            'content' => json_encode(['en' => 'This is the about us page content.', 'ja' => 'これは私たちについてのページのコンテンツです。']),
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
-        
-        DB::table('fixed_pages')->insertGetId([
-            'name'        => json_encode(['en' => 'Privacy Policy', 'ja' => 'プライバシーポリシー']),
-            'content' => json_encode(['en' => 'This is the privacy policy page content.', 'ja' => 'これはプライバシーポリシーのページのコンテンツです。']),
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
-
-        DB::table('fixed_pages')->insertGetId([
-            'name'        => json_encode(['en' => 'Terms of Service', 'ja' => '利用規約']),
-            'content' => json_encode(['en' => 'This is the terms of service page content.', 'ja' => 'これは利用規約のページのコンテンツです。']),
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
     }
 }

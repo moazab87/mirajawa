@@ -1,22 +1,23 @@
-<!-- admin-buttons.blade.php -->
-
-<div class="d-inline-block text-nowrap">
+<div class="d-inline-flex align-items-center gap-1 flex-nowrap dash-table-actions">
 
     @if(isset($showRoute))
-        <button type="button" class="btn btn-icon btn-label-secondary" onclick="location.href='{{ $showRoute }}'">
-            <span class="tf-icons bx bx-show"></span>
+        <button type="button" class="btn btn-icon dash-btn-icon btn-label-secondary" onclick="location.href='{{ $showRoute }}'"
+            title="{{ __('dashboard.show') }}" aria-label="{{ __('dashboard.show') }}">
+            <i class="bx bx-show"></i>
         </button>
     @endif
 
     @if(isset($editRoute))
-        <button type="button" class="btn btn-icon btn-label-primary" onclick="location.href='{{ $editRoute }}'">
-            <span class="tf-icons bx bx-edit-alt"></span>
+        <button type="button" class="btn btn-icon dash-btn-icon btn-label-primary" onclick="location.href='{{ $editRoute }}'"
+            title="{{ __('dashboard.edit') }}" aria-label="{{ __('dashboard.edit') }}">
+            <i class="bx bx-edit-alt"></i>
         </button>
     @endif
-    <!-- Delete Form -->
+
     @if(isset($deleteRoute))
-        <span class="delete-row btn btn-icon btn-label-danger" data-url="{{ $deleteRoute }}" style="cursor: pointer;">
-            <i class="tf-icons bx bx-trash"></i>
+        <span class="delete-row btn btn-icon dash-btn-icon btn-label-danger" data-url="{{ $deleteRoute }}"
+            style="cursor: pointer;" title="{{ __('dashboard.delete') }}" aria-label="{{ __('dashboard.delete') }}">
+            <i class="bx bx-trash"></i>
         </span>
     @endif
 </div>

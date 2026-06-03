@@ -134,7 +134,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'attributes' => [
+    'attributes' => array_merge([
         'title_ar' => 'アラビア語のタイトル',
         'title_en' => '英語のタイトル',
         'description_ar' => 'アラビア語の説明',
@@ -170,6 +170,6 @@ return [
         "name.en" => "名前（英語）",
         "product_id" => "商品",
         "exhibition_type" => "展示タイプ",
-    ],
+    ], file_exists(__DIR__.'/dashboard_validation_attributes.php') ? require __DIR__.'/dashboard_validation_attributes.php' : []),
 
 ];

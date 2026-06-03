@@ -51,6 +51,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/select2.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('admin/custom/css/myStyle.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin/custom/css/dashboard-ui.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/custom/css/fileinput.min.css') }}" />
 
     <!-- Helpers -->
