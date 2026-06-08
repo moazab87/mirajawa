@@ -1,161 +1,130 @@
 @extends('web.layouts.app')
 
-@php
-    $fixedPages = $fixedPages ?? \App\Models\FixedPage::all();
-@endphp
-
-@section('title', $product->name)
+@section('title', $product->name . ' | ' . config('app.name'))
+@section('meta_description', Str::limit(strip_tags($product->description ?? ''), 160))
 
 @section('content')
-    <!-- Page Header -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12" data-aos="fade-up">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('web.home') }}">{{ __('admin.dashboard') }}</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('web.categories.index') }}">{{ __('admin.categories') }}</a></li>
-                            @if($product->category)
-                                <li class="breadcrumb-item"><a href="{{ route('web.categories.show', $product->category->id) }}">{{ $product->category->name }}</a></li>
-                            @endif
-                            <li class="breadcrumb-item active">{{ $product->name }}</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
+    @include('web.partials.page-hero', [
+        'title' => $product->name,
+        'subtitle' => $product->category->name ?? null,
+        'breadcrumbs' => [
+            __('website.breadcrumb_home') => route('web.home'),
+            __('website.products') => route('web.products.index'),
+            $product->name => route('web.products.show', $product->id),
+        ],
+    ])
 
-    <!-- Product Details -->
-    <section class="py-5">
-        <div class="container">
-            <div class="row">
-                <!-- Product Images/Videos -->
-                <div class="col-lg-6 mb-4" data-aos="fade-right">
+    <section class="mj-section mj-section--white">
+        <div class="mj-container">
+            <div class="row g-5 mj-product-layout">
+                <div class="col-lg-6">
                     @php
-                        $images = $product->attachments->filter(function($att) {
-                            return str_starts_with($att->mime, 'image/');
-                        });
-                        $videos = $product->attachments->filter(function($att) {
-                            return str_starts_with($att->mime, 'video/');
-                        });
+                        $images = $product->attachments->filter(fn ($a) => str_starts_with((string) $a->mime, 'image/'));
+                        $videos = $product->attachments->filter(fn ($a) => str_starts_with((string) $a->mime, 'video/'));
+                        $firstImage = $images->first();
                     @endphp
-                    
-                    @if($images->count() > 0)
-                        <div class="mb-4">
-                            <h5 class="mb-3">{{ __('admin.images') }}</h5>
-                            <div class="row g-3" data-fancybox="product-images-gallery">
-                                @foreach($images as $image)
-                                    <div class="col-6">
-                                        <a href="{{ asset('storage/attachments/products/' . $image->file_name) }}"
-                                           data-fancybox="product-images-gallery"
-                                           data-caption="{{ $image->original_name }}">
-                                            <img src="{{ asset('storage/attachments/products/' . $image->file_name) }}" 
-                                                 class="img-fluid rounded shadow-sm" 
-                                                 alt="{{ $image->original_name }}">
-                                        </a>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-                    
-                    @if($videos->count() > 0)
-                        <div>
-                            <h5 class="mb-3">{{ __('admin.videos') }}</h5>
-                            <div class="row g-3">
-                                @foreach($videos as $video)
-                                    <div class="col-12">
-                                        <a href="#video-{{ $video->id }}"
-                                           data-fancybox="product-videos-gallery"
-                                           data-caption="{{ $video->original_name }}"
-                                           data-type="html">
-                                            <div class="position-relative">
-                                                <video class="w-100 rounded shadow-sm" style="max-height: 300px;" muted>
-                                                    <source src="{{ asset('storage/attachments/products/' . $video->file_name) }}" type="{{ $video->mime }}">
-                                                </video>
-                                                <div class="position-absolute top-50 start-50 translate-middle">
-                                                    <i class="bi bi-play-circle-fill text-white" style="font-size: 4rem; opacity: 0.8;"></i>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <div id="video-{{ $video->id }}" style="display: none;">
-                                            <video class="w-100" controls style="max-width: 100%;">
-                                                <source src="{{ asset('storage/attachments/products/' . $video->file_name) }}" type="{{ $video->mime }}">
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-                </div>
 
-                <!-- Product Info -->
-                <div class="col-lg-6" data-aos="fade-left">
-                    <h1 class="display-5 fw-bold mb-3">{{ $product->name }}</h1>
-                    
-                    @if($product->category)
-                        <p class="text-muted mb-3">
-                            <i class="bi bi-tag"></i> 
-                            <a href="{{ route('web.categories.show', $product->category->id) }}" class="text-decoration-none">
-                                {{ $product->category->name }}
-                            </a>
-                        </p>
-                    @endif
-                    
-                    @if($product->description)
-                        <div class="mb-4">
-                            <h5>{{ __('admin.description') }}</h5>
-                            <p class="text-muted">{{ $product->description }}</p>
-                        </div>
-                    @endif
-                    
-                    @if($product->link)
-                        <div class="mb-4">
-                            <a href="{{ $product->link }}" target="_blank" class="btn btn-primary btn-lg">
-                                <i class="bi bi-link-45deg"></i> {{ __('admin.view_link') }}
-                            </a>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Related Products -->
-    @if($relatedProducts->count() > 0)
-        <section class="py-5 bg-light">
-            <div class="container">
-                <h2 class="section-title mb-5" data-aos="fade-up">{{ __('admin.related_products') ?? 'Related Products' }}</h2>
-                <div class="row g-4">
-                    @foreach($relatedProducts as $relatedProduct)
-                        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                            <div class="card h-100 shadow-sm">
-                                @php
-                                    $firstImage = $relatedProduct->attachments->filter(function($att) {
-                                        return str_starts_with($att->mime, 'image/');
-                                    })->first();
-                                @endphp
+                    @if($images->count())
+                        <div class="mj-product-gallery mj-reveal">
+                            <div class="mj-product-gallery__main">
                                 @if($firstImage)
-                                    <a href="{{ route('web.products.show', $relatedProduct->id) }}">
-                                        <img src="{{ asset('storage/attachments/products/' . $firstImage->file_name) }}" 
-                                             class="card-img-top" 
-                                             alt="{{ $relatedProduct->name }}">
+                                    <a href="{{ attachmentStorageUrl($firstImage, 'products') }}" data-fancybox="product-gallery">
+                                        <img src="{{ attachmentStorageUrl($firstImage, 'products') }}" alt="{{ $product->name }}" id="product-main-image" loading="eager">
                                     </a>
                                 @endif
-                                <div class="card-body">
-                                    <h6 class="card-title">{{ $relatedProduct->name }}</h6>
-                                </div>
-                                <div class="card-footer bg-transparent border-top-0">
-                                    <a href="{{ route('web.products.show', $relatedProduct->id) }}" class="btn btn-primary btn-sm w-100">
-                                        {{ __('admin.view') }}
-                                    </a>
-                                </div>
                             </div>
+                            @if($images->count() > 1)
+                                <div class="mj-product-gallery__thumbs">
+                                    @foreach($images as $image)
+                                        <button type="button" class="mj-product-gallery__thumb border-0 p-0 bg-transparent {{ $loop->first ? 'active' : '' }}"
+                                                data-src="{{ attachmentStorageUrl($image, 'products') }}"
+                                                aria-label="{{ __('website.images') }} {{ $loop->iteration }}">
+                                            <img src="{{ attachmentStorageUrl($image, 'products') }}" alt="" loading="lazy">
+                                        </button>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
+                    @else
+                        <div class="mj-placeholder-image mj-product-gallery__main mj-reveal">
+                            <i class="bi bi-box-seam" aria-hidden="true"></i>
+                        </div>
+                    @endif
+
+                    @if($videos->count())
+                        <div class="mt-4 mj-reveal">
+                            <h2 class="mj-label-sm mb-3">{{ __('website.videos') }}</h2>
+                            @foreach($videos as $video)
+                                <video class="w-100 rounded mb-2" controls style="max-height:320px;border-radius:var(--mj-radius-sm);">
+                                    <source src="{{ attachmentStorageUrl($video, 'products') }}" type="{{ $video->mime }}">
+                                </video>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
+                <div class="col-lg-6 mj-product-info">
+                    <div class="d-flex flex-wrap gap-2 mb-3 mj-reveal">
+                        @if($product->category)
+                            <span class="mj-badge mj-badge--green">{{ $product->category->name }}</span>
+                        @endif
+                        @if($product->productGroup)
+                            <span class="mj-badge">{{ $product->productGroup->name }}</span>
+                        @endif
+                    </div>
+
+                    @if($product->description)
+                        <div class="mb-4 mj-reveal">
+                            <h2 class="h5 mb-3 mj-label-sm">{{ __('website.description') }}</h2>
+                            <div class="mj-content">{!! $product->description !!}</div>
+                        </div>
+                    @endif
+
+                    <div class="mj-spec-panel mj-reveal">
+                        <h2 class="mj-spec-panel__title">{{ __('website.product_specifications') }}</h2>
+                        <ul class="mj-product-specs">
+                            @if($product->category)
+                                <li><strong>{{ __('website.category') }}</strong><span>{{ $product->category->name }}</span></li>
+                            @endif
+                            @if($product->productGroup)
+                                <li><strong>{{ __('website.product_group') }}</strong><span>{{ $product->productGroup->name }}</span></li>
+                            @endif
+                            @foreach([
+                                'packaging' => __('website.packaging'),
+                                'country_of_origin' => __('website.country_of_origin'),
+                                'how_to_use' => __('website.how_to_use'),
+                                'storage_conditions' => __('website.storage_conditions'),
+                                'expiry_date_text' => __('website.expiry_date'),
+                                'harvest_season' => __('website.harvest_season'),
+                                'notes' => __('website.notes'),
+                            ] as $field => $label)
+                                @if($product->{$field})
+                                    <li><strong>{{ $label }}</strong><span>{!! $product->{$field} !!}</span></li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <div class="mj-product-actions mj-reveal">
+                        <a href="{{ route('web.request-information.create') }}" class="mj-btn mj-btn--primary">
+                            <i class="bi bi-file-earmark-text" aria-hidden="true"></i> {{ __('website.request_information') }}
+                        </a>
+                        <a href="{{ route('web.contact.index') }}" class="mj-btn mj-btn--outline">
+                            {{ __('website.contact_us') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @if($relatedProducts->count())
+        <section class="mj-section mj-section--beige">
+            <div class="mj-container">
+                @include('web.partials.section-heading', ['title' => __('website.related_products')])
+                <div class="mj-grid mj-grid--4">
+                    @foreach($relatedProducts as $related)
+                        @include('web.components.product-card', ['product' => $related])
                     @endforeach
                 </div>
             </div>
@@ -164,34 +133,25 @@
 @endsection
 
 @section('script')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Fancybox for images
-            if (document.querySelector("[data-fancybox='product-images-gallery']")) {
-                Fancybox.bind("[data-fancybox='product-images-gallery']", {
-                    Toolbar: {
-                        display: {
-                            left: ["infobar"],
-                            middle: [],
-                            right: ["slideshow", "download", "thumbs", "close"],
-                        },
-                    },
-                });
-            }
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (document.querySelector('[data-fancybox="product-gallery"]')) {
+            Fancybox.bind('[data-fancybox="product-gallery"]', {});
+        }
 
-            // Initialize Fancybox for videos
-            if (document.querySelector("[data-fancybox='product-videos-gallery']")) {
-                Fancybox.bind("[data-fancybox='product-videos-gallery']", {
-                    Toolbar: {
-                        display: {
-                            left: ["infobar"],
-                            middle: [],
-                            right: ["slideshow", "download", "thumbs", "close"],
-                        },
-                    },
-                });
-            }
+        document.querySelectorAll('.mj-product-gallery__thumb').forEach(function (thumb) {
+            thumb.addEventListener('click', function () {
+                const src = this.dataset.src;
+                const main = document.getElementById('product-main-image');
+                const link = main?.closest('a');
+                if (main && src) {
+                    main.src = src;
+                    if (link) link.href = src;
+                }
+                document.querySelectorAll('.mj-product-gallery__thumb').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
         });
-    </script>
+    });
+</script>
 @endsection
-

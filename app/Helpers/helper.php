@@ -294,6 +294,60 @@ if (!function_exists('getSettingValue')) {
     }
 }
 
+if (!function_exists('attachmentStorageUrl')) {
+    function attachmentStorageUrl($attachment, string $folder): ?string
+    {
+        if (!$attachment || empty($attachment->file_name)) {
+            return null;
+        }
+
+        return asset('storage/attachments/' . $folder . '/' . $attachment->file_name);
+    }
+}
+
+if (!function_exists('productImageUrl')) {
+    function productImageUrl($product): ?string
+    {
+        $image = $product->attachments
+            ?->first(fn ($att) => str_starts_with((string) $att->mime, 'image/'));
+
+        return attachmentStorageUrl($image, 'products');
+    }
+}
+
+if (!function_exists('sliderMediaUrl')) {
+    function sliderMediaUrl($slider): ?array
+    {
+        $media = $slider->attachments?->first();
+
+        if (!$media) {
+            return null;
+        }
+
+        return [
+            'url' => attachmentStorageUrl($media, 'sliders'),
+            'mime' => $media->mime,
+            'is_video' => str_starts_with((string) $media->mime, 'video/'),
+        ];
+    }
+}
+
+if (!function_exists('websiteBackgroundImage')) {
+    function websiteBackgroundImage(): ?string
+    {
+        $image = getSettingImageLink('background_image');
+
+        return $image ?: null;
+    }
+}
+
+if (!function_exists('isCurrentRoute')) {
+    function isCurrentRoute(string $pattern): bool
+    {
+        return request()->routeIs($pattern);
+    }
+}
+
 if (!function_exists('uploadImage')) {
     function uploadImage($path, $image)
     {

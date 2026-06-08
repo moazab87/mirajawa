@@ -1,136 +1,263 @@
 @extends('web.layouts.app')
 
-@section('title', config('app.name'))
+@section('title', (($welcomePage->name ?? null) ?: config('app.name')) . ' | ' . config('app.name'))
+@section('meta_description', Str::limit(strip_tags(($welcomePage->description ?? null) ?: ($aboutPage->description ?? null) ?: __('website.hero_default_subtitle')), 160))
 
 @section('content')
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <h1 class="display-4 fw-bold mb-4" style="color: var(--primary-color);">
-                        {{ __('admin.welcome_message_title') ?? 'Welcome' }}
-                    </h1>
-                    <p class="lead mb-4 text-muted">
-                        {{ __('admin.welcome_message') ?? 'Discover our amazing collection' }}
-                    </p>
-                    <div class="d-flex gap-3 flex-wrap">
-                        <a href="{{ route('web.categories.index') }}" class="btn btn-primary btn-lg">
-                            {{ __('admin.categories') }} <i class="bi bi-arrow-right ms-2"></i>
-                        </a>
-                        @if($fixedPages->count() > 0)
-                            <a href="#fixed-page-{{ $fixedPages->first()->id }}" class="btn btn-outline-primary btn-lg">
-                                {{ __('admin.learn_more') ?? 'Learn More' }} <i class="bi bi-arrow-down ms-2"></i>
-                            </a>
+    <section class="mj-hero" aria-label="{{ __('website.home') }}">
+        @php
+            $bgImage = websiteBackgroundImage();
+            $hasSlides = $sliders->count() > 0;
+        @endphp
+
+        @if($hasSlides)
+            @foreach($sliders as $slider)
+                @php $media = sliderMediaUrl($slider); @endphp
+                <div class="mj-hero__slide {{ $loop->first ? 'active' : '' }}" @if($loop->first) aria-hidden="false" @else aria-hidden="true" @endif>
+                    <div class="mj-hero__media" @if($media && !$media['is_video']) style="background-image:url('{{ $media['url'] }}')" @elseif($bgImage) style="background-image:url('{{ $bgImage }}')" @endif>
+                        @if($media && $media['is_video'])
+                            <video autoplay muted loop playsinline>
+                                <source src="{{ $media['url'] }}" type="{{ $media['mime'] }}">
+                            </video>
                         @endif
                     </div>
+                    <div class="mj-hero__overlay"></div>
                 </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    @if($sliders && $sliders->count() > 0)
-                        <div id="heroSlider" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
-                            <div class="carousel-inner rounded shadow-lg" style="border-radius: 20px !important; overflow: hidden;">
-                                @foreach($sliders as $slider)
-                                    @php
-                                        $media = $slider->attachments->first();
-                                    @endphp
-                                    @if($media)
-                                        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                                            @if(str_starts_with($media->mime, 'image/'))
-                                                <img src="{{ asset('storage/attachments/sliders/' . $media->file_name) }}" 
-                                                     class="d-block w-100" 
-                                                     alt="Slider {{ $loop->iteration }}"
-                                                     style="height: 400px; object-fit: cover;">
-                                            @else
-                                                <video class="d-block w-100" autoplay muted loop style="height: 400px; object-fit: cover;">
-                                                    <source src="{{ asset('storage/attachments/sliders/' . $media->file_name) }}" type="{{ $media->mime }}">
-                                                </video>
-                                            @endif
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-                            @if($sliders->count() > 1)
-                                <button class="carousel-control-prev" type="button" data-bs-target="#heroSlider" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#heroSlider" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                                <div class="carousel-indicators">
-                                    @foreach($sliders as $slider)
-                                        <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="{{ $loop->index }}" 
-                                                class="{{ $loop->first ? 'active' : '' }}" aria-current="{{ $loop->first ? 'true' : 'false' }}"></button>
-                                    @endforeach
-                                </div>
-                            @endif
-                        </div>
-                    @else
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800" alt="Hero" class="img-fluid rounded shadow-lg" style="border-radius: 20px !important;">
-                            <div class="position-absolute top-0 start-0 w-100 h-100 bg-primary opacity-10 rounded" style="border-radius: 20px;"></div>
-                        </div>
-                    @endif
-                </div>
+            @endforeach
+        @else
+            <div class="mj-hero__slide active">
+                <div class="mj-hero__media" @if($bgImage) style="background-image:url('{{ $bgImage }}')" @endif></div>
+                <div class="mj-hero__overlay"></div>
+            </div>
+        @endif
+
+        <div class="mj-container mj-hero__content">
+            @php
+                $firstSlider = $sliders->first();
+                $heroTitle = $firstSlider?->title ?? $welcomePage?->name ?? __('website.hero_default_title');
+                $heroSubtitle = $firstSlider?->description ?? $welcomePage?->description ?? __('website.hero_default_subtitle');
+            @endphp
+            <span class="mj-hero__eyebrow">{{ config('app.name') }}</span>
+            <h1 class="mj-hero__title">{{ $heroTitle }}</h1>
+            <p class="mj-hero__subtitle">{!! Str::limit(strip_tags($heroSubtitle), 220) !!}</p>
+            <div class="mj-hero__actions">
+                <a href="{{ route('web.products.index') }}" class="mj-btn mj-btn--gold mj-btn--lg">
+                    <i class="bi bi-box-seam" aria-hidden="true"></i> {{ __('website.view_products') }}
+                </a>
+                <a href="{{ route('web.request-information.create') }}" class="mj-btn mj-btn--ghost mj-btn--lg">
+                    {{ __('website.request_information') }}
+                </a>
             </div>
         </div>
+
+        @if($hasSlides && $sliders->count() > 1)
+            <div class="mj-hero__dots" role="tablist" aria-label="{{ __('website.hero_slides') }}">
+                @foreach($sliders as $slider)
+                    <button type="button" class="mj-hero__dot {{ $loop->first ? 'active' : '' }}" role="tab" aria-label="{{ __('website.slide') }} {{ $loop->iteration }}"></button>
+                @endforeach
+            </div>
+        @endif
+
+        <a href="#welcome-section" class="mj-hero__scroll d-none d-md-flex" aria-label="{{ __('website.scroll_down') }}">
+            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+        </a>
     </section>
 
-    <!-- Fixed Pages Sections -->
-    @foreach($fixedPages as $fixedPage)
-        <section id="fixed-page-{{ $fixedPage->id }}" class="fixed-page-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto" data-aos="fade-up">
-                        <h2 class="section-title text-center">{{ $fixedPage->name }}</h2>
-                        <div class="content-wrapper text-center">
-                            {!! $fixedPage->content !!}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    @endforeach
-
-    <!-- Categories Section -->
-    @if($categories->count() > 0)
-        <section class="py-5" style="background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);">
-            <div class="container">
-                <div class="text-center mb-5" data-aos="fade-up">
-                    <h2 class="section-title">{{ __('admin.categories') }}</h2>
-                    <p class="lead text-muted">{{ __('admin.browse_categories') ?? 'Explore our collection' }}</p>
-                </div>
-                <div class="row g-4">
-                    @foreach($categories as $category)
-                        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                            <div class="card h-100">
-                                <div class="card-body text-center p-5">
-                                    <div class="mb-4">
-                                        <i class="bi bi-grid-3x3-gap display-4 text-primary"></i>
-                                    </div>
-                                    <h4 class="card-title mb-3 fw-bold">{{ $category->name }}</h4>
-                                    @if($category->description)
-                                        <p class="card-text text-muted mb-4">{{ Str::limit($category->description, 120) }}</p>
-                                    @endif
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <span class="badge bg-primary">{{ $category->products_count ?? 0 }} {{ __('admin.products') }}</span>
-                                        <a href="{{ route('web.categories.show', $category->id) }}" class="btn btn-primary">
-                                            {{ __('admin.view') }} <i class="bi bi-arrow-right ms-1"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="text-center mt-5" data-aos="fade-up">
-                    <a href="{{ route('web.categories.index') }}" class="btn btn-outline-primary btn-lg">
-                        {{ __('admin.view_all_categories') ?? 'View All Categories' }} <i class="bi bi-arrow-right ms-2"></i>
-                    </a>
+    @if($welcomePage && $welcomePage->description)
+        <section id="welcome-section" class="mj-section mj-section--white">
+            <div class="mj-container">
+                @include('web.partials.section-heading', [
+                    'number' => '01',
+                    'label' => __('website.welcome'),
+                    'title' => $welcomePage->name,
+                    'text' => $welcomePage->sub_title,
+                ])
+                <div class="mj-content mj-content-narrow mj-reveal">
+                    {!! $welcomePage->description !!}
                 </div>
             </div>
         </section>
     @endif
-@endsection
 
+    @if($aboutPage || $profiles->count())
+        <section class="mj-section mj-section--beige">
+            <div class="mj-container">
+                @include('web.partials.section-heading', [
+                    'number' => '02',
+                    'label' => __('website.who_we_are'),
+                    'title' => $aboutPage?->name ?? __('website.about_us'),
+                ])
+                <div class="mj-grid mj-grid--2">
+                    @if($aboutPage && $aboutPage->description)
+                        <div class="mj-content mj-reveal">{!! $aboutPage->description !!}</div>
+                    @endif
+                    <div class="mj-grid">
+                        @foreach($profiles as $profile)
+                            @include('web.components.info-card', [
+                                'title' => $profile->name,
+                                'icon' => 'bi-building',
+                                'align' => 'start',
+                                'description' => $profile->description,
+                            ])
+                        @endforeach
+                    </div>
+                </div>
+                <div class="mj-text-center mj-mt-section">
+                    <a href="{{ route('web.about') }}" class="mj-btn mj-btn--outline">{{ __('website.read_more') }}</a>
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if($informationBlocks->count())
+        <section class="mj-section mj-section--white">
+            <div class="mj-container">
+                @include('web.partials.section-heading', [
+                    'number' => '03',
+                    'label' => __('website.philosophy'),
+                    'title' => __('website.philosophy'),
+                ])
+                <div class="mj-grid mj-grid--3">
+                    @foreach($informationBlocks->take(3) as $block)
+                        @include('web.components.info-card', [
+                            'title' => $block->name,
+                            'icon' => 'bi-gem',
+                            'description' => Str::limit(strip_tags($block->description), 220),
+                        ])
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if($whyPage || $informationBlocks->count() > 3)
+        <section class="mj-section mj-section--beige">
+            <div class="mj-container">
+                @include('web.partials.section-heading', [
+                    'number' => '04',
+                    'label' => __('website.why_mirajawa'),
+                    'title' => $whyPage?->name ?? __('website.why_mirajawa'),
+                    'text' => $whyPage?->sub_title,
+                ])
+                @if($whyPage && $whyPage->description)
+                    <div class="mj-content mj-content-narrow mb-4 mj-reveal">{!! $whyPage->description !!}</div>
+                @endif
+                <div class="mj-grid mj-grid--3">
+                    @foreach($informationBlocks->slice(3) as $block)
+                        @include('web.components.info-card', [
+                            'title' => $block->name,
+                            'icon' => 'bi-shield-check',
+                            'description' => Str::limit(strip_tags($block->description), 180),
+                        ])
+                    @endforeach
+                </div>
+                <div class="mj-text-center mj-mt-section">
+                    <a href="{{ route('web.why-us') }}" class="mj-btn mj-btn--primary">{{ __('website.read_more') }}</a>
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if($businessPage)
+        <section class="mj-section mj-section--white">
+            <div class="mj-container">
+                @include('web.partials.section-heading', [
+                    'number' => '05',
+                    'label' => __('website.business'),
+                    'title' => $businessPage->name,
+                    'text' => $businessPage->sub_title,
+                ])
+                @if($businessPage->description)
+                    <div class="mj-content mj-content-narrow mb-4 mj-reveal">{!! $businessPage->description !!}</div>
+                @endif
+                <div class="mj-text-center">
+                    <a href="{{ route('web.business') }}" class="mj-btn mj-btn--outline">{{ __('website.read_more') }}</a>
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if($categories->count() || $featuredProducts->count())
+        <section class="mj-section mj-section--beige">
+            <div class="mj-container">
+                @include('web.partials.section-heading', [
+                    'number' => '06',
+                    'label' => __('website.products'),
+                    'title' => __('website.featured_products'),
+                ])
+                @if($categories->count())
+                    <div class="mj-grid mj-grid--3 mb-4">
+                        @foreach($categories->take(3) as $category)
+                            @include('web.components.category-card', ['category' => $category])
+                        @endforeach
+                    </div>
+                @endif
+                @if($featuredProducts->count())
+                    <div class="mj-grid mj-grid--3">
+                        @foreach($featuredProducts as $product)
+                            @include('web.components.product-card', ['product' => $product])
+                        @endforeach
+                    </div>
+                @endif
+                <div class="mj-text-center mj-mt-section">
+                    <a href="{{ route('web.products.index') }}" class="mj-btn mj-btn--primary">{{ __('website.view_all') }}</a>
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if($histories->count())
+        <section class="mj-section mj-section--white">
+            <div class="mj-container">
+                @include('web.partials.section-heading', [
+                    'number' => '07',
+                    'label' => __('website.history'),
+                    'title' => __('website.company_journey'),
+                ])
+                <div class="mj-timeline mx-auto">
+                    @foreach($histories as $history)
+                        @include('web.components.timeline-item', [
+                            'title' => $history->name,
+                            'description' => $history->description,
+                        ])
+                    @endforeach
+                </div>
+                <div class="mj-text-center mj-mt-section">
+                    <a href="{{ route('web.history') }}" class="mj-btn mj-btn--outline">{{ __('website.view_all') }}</a>
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if($branches->count())
+        <section class="mj-section mj-section--beige">
+            <div class="mj-container">
+                @include('web.partials.section-heading', [
+                    'number' => '08',
+                    'label' => __('website.branches'),
+                    'title' => __('website.facilities'),
+                ])
+                <div class="mj-grid mj-grid--3">
+                    @foreach($branches as $branch)
+                        <article class="mj-card mj-reveal">
+                            @if($branch->images->first())
+                                <div class="mj-card__image">
+                                    <img src="{{ $branch->images->first()->image_url }}" alt="{{ $branch->name }}" loading="lazy">
+                                </div>
+                            @endif
+                            <div class="mj-card__body">
+                                <h3 class="mj-card__title">{{ $branch->name }}</h3>
+                                <div class="mj-content">{!! Str::limit(strip_tags($branch->description), 140) !!}</div>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+                <div class="mj-text-center mj-mt-section">
+                    <a href="{{ route('web.branches') }}" class="mj-btn mj-btn--outline">{{ __('website.view_all') }}</a>
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @include('web.partials.cta-section')
+@endsection
