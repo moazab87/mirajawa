@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Enums\FixedPageSlugEnum;
 use App\Enums\MessageStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\ContactMessageRequest;
@@ -19,7 +20,7 @@ class ContactController extends Controller
     public function index(): View
     {
         return view('web.contact.index', [
-            'page' => $this->content->fixedPage('information'),
+            'page' => $this->content->fixedPage(FixedPageSlugEnum::INFORMATION),
             'contactInformation' => $this->content->contactInformation(),
             'addresses' => $this->content->addresses(),
             'branches' => $this->content->branches(),

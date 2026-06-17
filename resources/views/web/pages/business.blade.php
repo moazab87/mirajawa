@@ -32,7 +32,7 @@
                 </div>
             @endif
 
-            @if($categories->count())
+            {{-- @if($categories->count())
                 <div class="mt-5">
                     @include('web.partials.section-heading', ['title' => __('website.products')])
                     <div class="mj-grid mj-grid--3">
@@ -68,7 +68,7 @@
                         @endforeach
                     </div>
                 </div>
-            @endif
+            @endif --}}
         </div>
     </section>
 

@@ -5,9 +5,9 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <x-admin.breadcrumb :links="[
-            ['url' => route('admin.admin.index'), 'text' => __('admin.AdminPanel')],
+            ['url' => route('admin.admin.index'), 'text' => __('dashboard.admin_panel')],
             ['url' => $route, 'text' => $title],
-            ['url' => '#', 'text' => __('admin.create')],
+            ['url' => '#', 'text' => __('dashboard.create')],
         ]" />
         <div class="col-md-12">
             <div class="card">
@@ -16,67 +16,65 @@
                         @csrf
                         @include('admin.layouts.partials.alerts')
                         <div class="row">
-                            {{-- Name Field --}}
                             <div class="mb-3 col-md-6">
-                                <label for="name" class="form-label">{{ __('admin.name') }}</label>
+                                <label for="name" class="form-label">{{ __('dashboard.name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="{{ __('admin.name') }}" required autofocus
+                                    placeholder="{{ __('dashboard.name') }}" required autofocus
                                     value="{{ old('name') }}">
                                 @error('name')
-                                    <div class="text-danger">{{ $error }}</div>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            {{-- URL Field --}}
                             <div class="mb-3 col-md-6">
-                                <label for="url" class="form-label">{{ __('admin.url') }}</label>
+                                <label for="url" class="form-label">{{ __('dashboard.url') }}</label>
                                 <input type="url" class="form-control" id="url" name="url"
                                     placeholder="https://example.com" required
                                     value="{{ old('url') }}">
                                 @error('url')
-                                    <div class="text-danger">{{ $error }}</div>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            {{-- Icon Field --}}
                             <div class="mb-3 col-md-6">
-                                <label for="icon" class="form-label">{{ __('admin.icon') }}</label>
+                                <label for="icon" class="form-label">{{ __('dashboard.icon') }}</label>
                                 <input type="text" class="form-control" id="icon" name="icon"
-                                    placeholder="bx bxl-facebook or fab fa-facebook" 
+                                    placeholder="{{ __('dashboard.icon_placeholder') }}"
                                     value="{{ old('icon') }}">
-                                <small class="text-muted">{{ __('admin.icon_hint') ?? 'Use icon class (e.g., bx bxl-facebook, fab fa-facebook)' }}</small>
+                                <small class="text-muted">{{ __('dashboard.icon_hint') }}</small>
+                                @if(old('icon'))
+                                    <div class="mt-2">
+                                        <i class="{{ old('icon') }}" style="font-size: 1.375rem;"></i>
+                                    </div>
+                                @endif
                                 @error('icon')
-                                    <div class="text-danger">{{ $error }}</div>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            {{-- Is Active Field --}}
                             <div class="mb-3 col-md-6">
-                                <label for="is_active" class="form-label">{{ __('admin.status') }}</label>
+                                <label for="is_active" class="form-label">{{ __('dashboard.status') }}</label>
                                 <select class="form-select" id="is_active" name="is_active">
                                     <option value="1" {{ old('is_active', true) ? 'selected' : '' }}>
-                                        {{ __('admin.active') }}
+                                        {{ __('dashboard.statuses.active') }}
                                     </option>
                                     <option value="0" {{ old('is_active') === '0' ? 'selected' : '' }}>
-                                        {{ __('admin.inactive') }}
+                                        {{ __('dashboard.statuses.inactive') }}
                                     </option>
                                 </select>
                                 @error('is_active')
-                                    <div class="text-danger">{{ $error }}</div>
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary">{{ __('admin.create') }}</button>
-                            <a href="{{ url()->previous() }}" type="reset"
-                                class="btn btn-outline-warning mx-1">{{ __('admin.back') }}</a>
+                            <button type="submit" class="btn btn-primary">{{ __('dashboard.create') }}</button>
+                            <a href="{{ url()->previous() }}" class="btn btn-outline-warning mx-1">{{ __('dashboard.back') }}</a>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-

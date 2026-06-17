@@ -8,7 +8,7 @@
         'title' => $page?->name ?? __('website.privacy_policy'),
         'breadcrumbs' => [
             __('website.breadcrumb_home') => route('web.home'),
-            __('website.privacy_policy') => route('web.privacy'),
+            ($page?->name ?? __('website.privacy_policy')) => route('web.privacy'),
         ],
     ])
 

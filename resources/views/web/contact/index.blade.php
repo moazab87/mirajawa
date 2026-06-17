@@ -49,11 +49,11 @@
                             @if($address->map_desc)
                                 <p class="text-muted small mb-0">{!! $address->map_desc !!}</p>
                             @endif
-                            @if($address->lat && $address->lng)
+                            {{-- @if($address->lat && $address->lng)
                                 <a href="https://maps.google.com/?q={{ $address->lat }},{{ $address->lng }}" target="_blank" rel="noopener noreferrer" class="mj-btn mj-btn--outline mj-btn--sm mt-3">
                                     <i class="bi bi-map" aria-hidden="true"></i> {{ __('website.map') }}
                                 </a>
-                            @endif
+                            @endif --}}
                         </div>
                     @endforeach
                 </div>

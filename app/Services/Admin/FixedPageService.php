@@ -4,6 +4,7 @@ namespace App\Services\Admin;
 
 use App\Models\FixedPage;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class FixedPageService extends AbstractAdminCrudService
 {
@@ -29,10 +30,7 @@ class FixedPageService extends AbstractAdminCrudService
 
     public function store(array $data): array
     {
-        $data = $this->prepareData($data);
-        FixedPage::create($data);
-
-        return ['key' => 'success', 'msg' => __('dashboard.static_pages.created_successfully')];
+        throw new HttpException(403, __('dashboard.static_page_cannot_be_created'));
     }
 
     public function update(Model $model, array $data): array
@@ -42,11 +40,14 @@ class FixedPageService extends AbstractAdminCrudService
         return parent::update($model, $data);
     }
 
+    public function delete(Model $model): array
+    {
+        throw new HttpException(403, __('dashboard.static_page_cannot_be_deleted'));
+    }
+
     private function prepareData(array $data, ?FixedPage $model = null): array
     {
-        if (empty($data['slug'])) {
-            $data['slug'] = FixedPage::generateSlug($data['name'] ?? []);
-        }
+        unset($data['slug']);
 
         if (isset($data['image']) && is_file($data['image'])) {
             if ($model?->image) {

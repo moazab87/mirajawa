@@ -23,6 +23,7 @@
                 <div class="mj-timeline mx-auto">
                     @foreach($histories as $history)
                         @include('web.components.timeline-item', [
+                            'year' => $history->year,
                             'title' => $history->name,
                             'description' => $history->description,
                         ])

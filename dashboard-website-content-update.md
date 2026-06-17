@@ -8,7 +8,7 @@
 | **Categories** | `color`, `status` (int `GeneralStatusEnum`). Language tabs on forms. |
 | **Sliders** | Translatable `title`, `description`. `is_active` migrated to `status` (int enum). |
 | **Products** | Translatable product detail fields, `product_group_id`, `status`, scopes `active`, `byCategory`, `byProductGroup`. |
-| **Static pages** (`FixedPage`) | `slug`, `sub_title`, `description` (replaces `content`), `image`, `status`. Slug auto from EN/AR name. |
+| **Static pages** (`FixedPage`) | `slug`, `sub_title`, `description` (replaces `content`), `image`, `status`. Predefined system slugs only (see [Static Pages Slug Rules](#static-pages-slug-rules)). |
 
 ## 2. New dashboard sections
 
@@ -42,6 +42,7 @@
 - `sliders` — `title`, `description`, `status` (dropped `is_active`)
 - `products` — translated JSON fields, `product_group_id`, `status`
 - `fixed_pages` — `slug`, `sub_title`, `description`, `image`, `status` (dropped `content`)
+- `histories` — `year` (unsigned small integer, nullable, indexed; not translated)
 
 Settings remain key/value in `settings` table (no schema migration).
 
@@ -110,7 +111,7 @@ Used by address forms when key is set (`admin/shared/location.blade.php`).
 
 - Use model scopes: `active()`, `latestFirst()`, `ordered()` (where applicable).
 - Translations: Spatie JSON (`ar`, `en`, `ja`); display helper `translatedDisplay($model, 'field')` / `getDisplayTranslation()` with fallback order: current locale → ar → en → ja.
-- Static pages: query `FixedPage` by `slug` + `active()`.
+- Static pages: query `FixedPage` by `slug` + `active()` via `WebsiteContentService::fixedPage()` and `FixedPageSlugEnum`.
 - Repeated blocks: `Profile`, `History`, `InformationBlock`, `ContactInformation`, `Faq`, `Address`, `Branch` with `active()`.
 - Products: filter by `category_id`, `product_group_id`, `status`.
 
@@ -198,6 +199,37 @@ Note: `resources/views/dashboard` does not exist; all dashboard UI lives under `
 Set session language (existing flow): login page language toggle sets `Lang` session (`en`, `ar`, `ja`). `App\Http\Middleware\Locale` applies `app()->setLocale()`.
 
 Verify: open `/dashboard` after switching language — menu, tables, forms, validation errors, and status badges should appear in the selected language.
+
+## Static Pages Slug Rules
+
+Static pages (`FixedPage` / `fixed_pages`) are **predefined system pages**, not open CRUD resources.
+
+### Admin behavior
+
+- **Allowed:** list, show, edit content (name, sub_title, description, image, status).
+- **Not allowed:** create, delete, edit slug, bulk delete.
+
+Routes: `Route::resource('fixedPages', ...)->only(['index', 'show', 'edit', 'update'])`.
+
+Backend protection:
+
+- `FixedPage` model blocks slug changes on update and blocks create/delete outside console (seeders).
+- `FixedPageService` strips `slug` from update payload and rejects store/delete.
+- `FixedPageController` returns 403 for create/store/destroy.
+
+### Required slugs (`App\Enums\FixedPageSlugEnum`)
+
+`privacy-policy`, `our-factory`, `welcome`, `history`, `why-us`, `products`, `company-information`, `about-us`, `information`, `business`, `greetings`
+
+### Seeder
+
+`FixedPageSeeder` uses `firstOrCreate(['slug' => ...])` with default translated names **only on first creation**. Re-running the seeder does not overwrite admin-edited content.
+
+### Public website
+
+- Fetch by slug only: `WebsiteContentService::fixedPage(FixedPageSlugEnum::WELCOME)` (or string slug).
+- Do not fetch static pages by ID in public controllers.
+- Do not hardcode page body content in Blade.
 
 ## Architecture alignment
 

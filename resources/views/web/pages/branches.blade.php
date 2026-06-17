@@ -18,23 +18,34 @@
                 <div class="mj-content mx-auto mb-5" style="max-width:900px;">{!! $page?->description !!}</div>
             @endif
 
-            <div class="mj-grid mj-grid--2">
+            <div class="row g-4">
                 @forelse($branches as $branch)
-                    <div class="mj-card">
-                        @if($branch->images->count())
-                            <div class="mj-gallery p-3">
-                                @foreach($branch->images as $image)
-                                    <img src="{{ $image->image_url }}" alt="{{ $branch->name }}" loading="lazy">
-                                @endforeach
+                    <div class="col-md-6">
+                        <article class="mj-card h-100">
+                            <div class="mj-card__image">
+                                @if($branch->images->count())
+                                    <img src="{{ $branch->images->first()->image_url }}" alt="{{ $branch->name }}" loading="lazy">
+                                @else
+                                    <div class="mj-placeholder-image"><i class="bi bi-building" aria-hidden="true"></i></div>
+                                @endif
                             </div>
-                        @endif
-                        <div class="mj-card__body">
-                            <h3 class="mj-card__title">{{ $branch->name }}</h3>
-                            <div class="mj-content">{!! $branch->description !!}</div>
-                        </div>
+                            <div class="mj-card__body">
+                                <h3 class="mj-card__title">{{ $branch->name }}</h3>
+                                <div class="mj-content">{!! $branch->description !!}</div>
+                            </div>
+                            @if($branch->images->count() > 1)
+                                <div class="mj-gallery p-3">
+                                    @foreach($branch->images->skip(1) as $image)
+                                        <img src="{{ $image->image_url }}" alt="{{ $branch->name }}" loading="lazy">
+                                    @endforeach
+                                </div>
+                            @endif
+                        </article>
                     </div>
                 @empty
-                    <p class="text-center">{{ __('website.no_content') }}</p>
+                    <div class="col-12">
+                        <p class="text-center">{{ __('website.no_content') }}</p>
+                    </div>
                 @endforelse
             </div>
         </div>

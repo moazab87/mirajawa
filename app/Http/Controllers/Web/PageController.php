@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Enums\FixedPageSlugEnum;
 use App\Http\Controllers\Controller;
 use App\Services\Web\WebsiteContentService;
 use Illuminate\View\View;
@@ -15,9 +16,9 @@ class PageController extends Controller
     public function about(): View
     {
         return view('web.pages.about', [
-            'page' => $this->content->fixedPage('about-us'),
-            'companyPage' => $this->content->fixedPage('company-information'),
-            'greetingsPage' => $this->content->fixedPage('greetings'),
+            'page' => $this->content->fixedPage(FixedPageSlugEnum::ABOUT_US),
+            'companyPage' => $this->content->fixedPage(FixedPageSlugEnum::COMPANY_INFORMATION),
+            'greetingsPage' => $this->content->fixedPage(FixedPageSlugEnum::GREETINGS),
             'profiles' => $this->content->profiles(),
             'informationBlocks' => $this->content->informationBlocks(),
         ]);
@@ -26,27 +27,28 @@ class PageController extends Controller
     public function companyProfile(): View
     {
         return view('web.pages.company-profile', [
-            'page' => $this->content->fixedPage('company-information') ?? $this->content->fixedPage('about-us'),
+            'page' => $this->content->fixedPage(FixedPageSlugEnum::COMPANY_INFORMATION)
+                ?? $this->content->fixedPage(FixedPageSlugEnum::ABOUT_US),
             'profiles' => $this->content->profiles(),
             'informationBlocks' => $this->content->informationBlocks(),
-            'greetingsPage' => $this->content->fixedPage('greetings'),
+            'greetingsPage' => $this->content->fixedPage(FixedPageSlugEnum::GREETINGS),
         ]);
     }
 
     public function business(): View
     {
         return view('web.pages.business', [
-            'page' => $this->content->fixedPage('business'),
+            'page' => $this->content->fixedPage(FixedPageSlugEnum::BUSINESS),
             'informationBlocks' => $this->content->informationBlocks(),
             'categories' => $this->content->categoriesWithCounts(),
-            'factoryPage' => $this->content->fixedPage('our-factory'),
+            'factoryPage' => $this->content->fixedPage(FixedPageSlugEnum::OUR_FACTORY),
         ]);
     }
 
     public function whyUs(): View
     {
         return view('web.pages.why-us', [
-            'page' => $this->content->fixedPage('why-us'),
+            'page' => $this->content->fixedPage(FixedPageSlugEnum::WHY_US),
             'informationBlocks' => $this->content->informationBlocks(),
             'profiles' => $this->content->profiles(),
         ]);
@@ -55,7 +57,7 @@ class PageController extends Controller
     public function history(): View
     {
         return view('web.pages.history', [
-            'page' => $this->content->fixedPage('history'),
+            'page' => $this->content->fixedPage(FixedPageSlugEnum::HISTORY),
             'histories' => $this->content->histories(),
         ]);
     }
@@ -63,7 +65,7 @@ class PageController extends Controller
     public function branches(): View
     {
         return view('web.pages.branches', [
-            'page' => $this->content->fixedPage('our-factory'),
+            'page' => $this->content->fixedPage(FixedPageSlugEnum::OUR_FACTORY),
             'branches' => $this->content->branches(),
         ]);
     }
@@ -71,7 +73,7 @@ class PageController extends Controller
     public function privacy(): View
     {
         return view('web.pages.privacy', [
-            'page' => $this->content->fixedPage('privacy-policy'),
+            'page' => $this->content->fixedPage(FixedPageSlugEnum::PRIVACY_POLICY),
         ]);
     }
 }

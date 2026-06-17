@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::resource('categories',                    CategoryController::class);
     Route::resource('productGroups',                 ProductGroupController::class);
     Route::resource('products',                      ProductController::class);
-    Route::resource('fixedPages',                    FixedPageController::class);
+    Route::resource('fixedPages', FixedPageController::class)->only(['index', 'show', 'edit', 'update']);
     Route::resource('sliders',                       SliderController::class);
     Route::resource('socials',                       SocialController::class);
     Route::resource('addresses',                     AddressController::class);

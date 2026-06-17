@@ -64,7 +64,7 @@
                 </div>
             @endif
 
-            @if($informationBlocks->count())
+            {{-- @if($informationBlocks->count())
                 <div class="mj-mt-section">
                     @include('web.partials.section-heading', ['title' => __('website.philosophy')])
                     <div class="mj-grid mj-grid--3">
@@ -77,7 +77,7 @@
                         @endforeach
                     </div>
                 </div>
-            @endif
+            @endif --}}
         </div>
     </section>
 

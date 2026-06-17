@@ -17,8 +17,18 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return array_merge(
+            [
+                'year' => ['required', 'integer', 'min:1900', 'max:2100'],
+            ],
             $this->translatableRules(['name' => true, 'description' => false]),
             ['status' => generalStatusRule()]
         );
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'year' => __('dashboard.year'),
+        ];
     }
 }

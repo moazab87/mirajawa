@@ -2,6 +2,7 @@
 
 namespace App\Services\Web;
 
+use App\Enums\FixedPageSlugEnum;
 use App\Models\Address;
 use App\Models\Branch;
 use App\Models\Category;
@@ -19,9 +20,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class WebsiteContentService
 {
-    public function fixedPage(string $slug): ?FixedPage
+    public function fixedPage(string|FixedPageSlugEnum $slug): ?FixedPage
     {
-        return FixedPage::active()->where('slug', $slug)->first();
+        $slugValue = $slug instanceof FixedPageSlugEnum ? $slug->value : $slug;
+
+        return FixedPage::active()->whereSlug($slugValue)->first();
     }
 
     public function fixedPages(array $slugs = []): Collection
@@ -29,7 +32,11 @@ class WebsiteContentService
         $query = FixedPage::active()->orderBy('id');
 
         if ($slugs !== []) {
-            $query->whereIn('slug', $slugs);
+            $normalized = array_map(
+                fn ($slug) => $slug instanceof FixedPageSlugEnum ? $slug->value : $slug,
+                $slugs
+            );
+            $query->whereIn('slug', $normalized);
         }
 
         return $query->get();
@@ -129,7 +136,7 @@ class WebsiteContentService
 
     public function histories(): Collection
     {
-        return History::active()->orderBy('id')->get();
+        return History::active()->orderForTimeline()->get();
     }
 
     public function informationBlocks(): Collection

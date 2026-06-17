@@ -126,10 +126,10 @@ return [
         "show" => "Show History",
     ],
     "informationBlocks" => [
-        'index' => 'Information Blocks',
+        'index' => 'Activities',
         "create" => "Add Information Block",
-        "edit" => "Edit Information Block",
-        "show" => "Show Information Block",
+        "edit" => "Edit Activity",
+        "show" => "Show Activity",
     ],
     "contactInformation" => [
         'index' => 'Contact Information',

@@ -12,9 +12,15 @@
     @foreach (languages() as $lang)
         <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="lang-tab-{{ $lang }}" role="tabpanel">
             @isset($fields)
+                @php
+                    $richTextFields = ['description', 'answer', 'map_desc', 'how_to_use', 'storage_conditions', 'notes'];
+                @endphp
                 @foreach ($fields as $field => $config)
                     @php
                         $type = $config['type'] ?? 'text';
+                        if ($type === 'textarea' && in_array($field, $richTextFields, true)) {
+                            $type = 'editor';
+                        }
                         $baseLabel = $config['label'] ?? "dashboard.{$field}";
                         if (str_contains($baseLabel, '.')) {
                             [$prefix, $key] = explode('.', $baseLabel, 2);
@@ -25,14 +31,18 @@
                         $label = __($labelKey);
                         $value = old("{$field}.{$lang}", isset($model) ? $model->getTranslation($field, $lang, false) : '');
                         $required = ($config['required'] ?? false) && $lang === 'ar';
+                        $inputId = "{$field}_{$lang}";
                     @endphp
-                    <div class="mb-3">
-                        <label class="form-label" for="{{ $field }}_{{ $lang }}">{{ $label }}</label>
-                        @if ($type === 'textarea')
-                            <textarea class="form-control" id="{{ $field }}_{{ $lang }}" name="{{ $field }}[{{ $lang }}]"
+                    <div class="mb-3 {{ $type === 'editor' ? 'mj-rich-editor-wrap' : '' }}">
+                        <label class="form-label" for="{{ $inputId }}">{{ $label }}</label>
+                        @if ($type === 'editor')
+                            <textarea class="form-control mj-rich-editor" id="{{ $inputId }}" name="{{ $field }}[{{ $lang }}]"
+                                rows="{{ $config['rows'] ?? 6 }}" data-lang="{{ $lang }}" {{ $required ? 'required' : '' }}>{{ $value }}</textarea>
+                        @elseif ($type === 'textarea')
+                            <textarea class="form-control" id="{{ $inputId }}" name="{{ $field }}[{{ $lang }}]"
                                 rows="{{ $config['rows'] ?? 3 }}" {{ $required ? 'required' : '' }}>{{ $value }}</textarea>
                         @else
-                            <input type="text" class="form-control" id="{{ $field }}_{{ $lang }}"
+                            <input type="text" class="form-control" id="{{ $inputId }}"
                                 name="{{ $field }}[{{ $lang }}]" value="{{ $value }}" {{ $required ? 'required' : '' }}>
                         @endif
                         @if ($errors->has("{$field}.{$lang}"))

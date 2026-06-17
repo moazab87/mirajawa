@@ -27,13 +27,21 @@ Legacy routes `/categories` and `/categories/{id}` redirect to the products cata
 |--------|--------|
 | **Settings** | Logo, favicon, phone, since year, background image |
 | **Sliders** | Homepage hero carousel |
-| **Fixed Pages** | Page heroes and section content by slug |
+| **Fixed Pages** | Page heroes and section content by fixed slug (`FixedPageSlugEnum`) via `WebsiteContentService::fixedPage()` |
+
+### Static Pages Slug Rules
+
+- Static pages are predefined system pages; slugs are not editable in the dashboard.
+- Public site loads content by slug only (never by ID).
+- Required slugs: `welcome`, `about-us`, `why-us`, `business`, `products`, `information`, `company-information`, `greetings`, `history`, `our-factory`, `privacy-policy`.
+- See `dashboard-website-content-update.md` for admin restrictions and seeder behavior.
+
 | **Categories** | Product catalog filters, homepage/footer links |
 | **Product Groups** | Product catalog filters |
 | **Products** | Catalog listing, detail pages, related products |
 | **Profiles** | About/company intro blocks |
 | **Histories** | Timeline on home and history page |
-| **Information Blocks** | Philosophy, strengths, business cards, roadmap |
+| **Activites** | Philosophy, strengths, business cards, roadmap |
 | **Contact Information** | Contact page cards |
 | **Addresses** | Contact page locations + map links |
 | **Branches** | Facilities preview and branches page |
@@ -157,3 +165,10 @@ Populate in dashboard (currently seeded with minimal/empty text):
 **Reference sites reviewed:** [mirajawa.com](https://mirajawa.com), [nile-international.com](https://nile-international.com) (layout inspiration only).
 
 **Admin dashboard:** unchanged; all new content remains manageable from existing dashboard modules.
+
+## Histories `year` field (update)
+
+- `histories.year` — integer timeline year (not translated); nullable in DB for safe migration, required on create/update forms.
+- Public timeline orders active records by `year` ascending (records without year appear last).
+- Dashboard listing orders by `year` descending.
+- `HistorySeeder` seeds milestones: 2011, 2020, 2022, 2025, 2026.

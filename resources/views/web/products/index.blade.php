@@ -19,7 +19,7 @@
                 <div class="mj-content mj-content-narrow mb-4 mj-reveal">{!! $page?->description !!}</div>
             @endif
 
-            @if($categories->count())
+            {{-- @if($categories->count())
                 <nav class="mj-filter-pills mj-reveal" aria-label="{{ __('website.categories') }}">
                     <a href="{{ route('web.products.index', array_filter(['search' => $search, 'group' => $activeGroupId])) }}"
                        class="mj-filter-pill {{ !$activeCategoryId ? 'active' : '' }}">{{ __('website.all_categories') }}</a>
@@ -28,7 +28,7 @@
                            class="mj-filter-pill {{ $activeCategoryId == $category->id ? 'active' : '' }}">{{ $category->name }}</a>
                     @endforeach
                 </nav>
-            @endif
+            @endif --}}
 
             <form method="GET" action="{{ route('web.products.index') }}" class="mj-filter-bar mj-form mj-reveal">
                 <div class="row g-3 align-items-end">

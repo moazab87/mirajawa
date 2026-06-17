@@ -80,27 +80,29 @@
     @endif
 
     @if($aboutPage || $profiles->count())
-        <section class="mj-section mj-section--beige">
+        <section class="mj-section mj-section--white">
             <div class="mj-container">
                 @include('web.partials.section-heading', [
                     'number' => '02',
                     'label' => __('website.who_we_are'),
                     'title' => $aboutPage?->name ?? __('website.about_us'),
                 ])
-                <div class="mj-grid mj-grid--2">
+                <div class="row g-4">
                     @if($aboutPage && $aboutPage->description)
-                        <div class="mj-content mj-reveal">{!! $aboutPage->description !!}</div>
+                        <div @class(['mj-reveal', $profiles->count() ? 'col-md-6' : 'col-12'])>
+                            <div class="mj-content">{!! $aboutPage->description !!}</div>
+                        </div>
                     @endif
-                    <div class="mj-grid">
-                        @foreach($profiles as $profile)
+                    @foreach($profiles as $profile)
+                        <div class="col-md-6">
                             @include('web.components.info-card', [
                                 'title' => $profile->name,
                                 'icon' => 'bi-building',
                                 'align' => 'start',
                                 'description' => $profile->description,
                             ])
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
                 <div class="mj-text-center mj-mt-section">
                     <a href="{{ route('web.about') }}" class="mj-btn mj-btn--outline">{{ __('website.read_more') }}</a>
@@ -109,7 +111,7 @@
         </section>
     @endif
 
-    @if($informationBlocks->count())
+    {{-- @if($informationBlocks->count())
         <section class="mj-section mj-section--white">
             <div class="mj-container">
                 @include('web.partials.section-heading', [
@@ -128,9 +130,9 @@
                 </div>
             </div>
         </section>
-    @endif
+    @endif --}}
 
-    @if($whyPage || $informationBlocks->count() > 3)
+    {{-- @if($whyPage || $informationBlocks->count() > 3)
         <section class="mj-section mj-section--beige">
             <div class="mj-container">
                 @include('web.partials.section-heading', [
@@ -156,9 +158,9 @@
                 </div>
             </div>
         </section>
-    @endif
+    @endif --}}
 
-    @if($businessPage)
+    {{-- @if($businessPage)
         <section class="mj-section mj-section--white">
             <div class="mj-container">
                 @include('web.partials.section-heading', [
@@ -175,7 +177,7 @@
                 </div>
             </div>
         </section>
-    @endif
+    @endif --}}
 
     @if($categories->count() || $featuredProducts->count())
         <section class="mj-section mj-section--beige">
@@ -217,6 +219,7 @@
                 <div class="mj-timeline mx-auto">
                     @foreach($histories as $history)
                         @include('web.components.timeline-item', [
+                            'year' => $history->year,
                             'title' => $history->name,
                             'description' => $history->description,
                         ])
@@ -237,19 +240,23 @@
                     'label' => __('website.branches'),
                     'title' => __('website.facilities'),
                 ])
-                <div class="mj-grid mj-grid--3">
+                <div class="row g-4">
                     @foreach($branches as $branch)
-                        <article class="mj-card mj-reveal">
-                            @if($branch->images->first())
+                        <div class="col-md-6">
+                            <article class="mj-card mj-reveal h-100">
                                 <div class="mj-card__image">
-                                    <img src="{{ $branch->images->first()->image_url }}" alt="{{ $branch->name }}" loading="lazy">
+                                    @if($branch->images->first())
+                                        <img src="{{ $branch->images->first()->image_url }}" alt="{{ $branch->name }}" loading="lazy">
+                                    @else
+                                        <div class="mj-placeholder-image"><i class="bi bi-building" aria-hidden="true"></i></div>
+                                    @endif
                                 </div>
-                            @endif
-                            <div class="mj-card__body">
-                                <h3 class="mj-card__title">{{ $branch->name }}</h3>
-                                <div class="mj-content">{!! Str::limit(strip_tags($branch->description), 140) !!}</div>
-                            </div>
-                        </article>
+                                <div class="mj-card__body">
+                                    <h3 class="mj-card__title">{{ $branch->name }}</h3>
+                                    <div class="mj-content">{!! Str::limit(strip_tags($branch->description), 140) !!}</div>
+                                </div>
+                            </article>
+                        </div>
                     @endforeach
                 </div>
                 <div class="mj-text-center mj-mt-section">

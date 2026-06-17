@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Enums\FixedPageSlugEnum;
 use App\Enums\MessageStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\InformationRequestFormRequest;
@@ -19,7 +20,7 @@ class InformationRequestController extends Controller
     public function create(): View
     {
         return view('web.contact.request-information', [
-            'page' => $this->content->fixedPage('information'),
+            'page' => $this->content->fixedPage(FixedPageSlugEnum::INFORMATION),
         ]);
     }
 

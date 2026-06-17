@@ -9,17 +9,22 @@
             ['url' => '#', 'text' => $title],
         ]" />
 
-        <x-admin.table :headers="['#', __('dashboard.name'), __('dashboard.slug'), __('dashboard.status'), __('dashboard.actions')]" :createRoute="$createRoute" :title="$title" :buttonText="__('dashboard.add')"
+        <x-admin.table :headers="['#', __('dashboard.name'), __('dashboard.slug'), __('dashboard.status'), __('dashboard.actions')]" :title="$title"
             :search="true" :indexRoute="$route">
 
             @forelse($models as $model)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $model->getDisplayTranslation('name') }}</td>
-                    <td>{{ $model->slug }}</td>
+                    <td>
+                        {{ $model->getDisplayTranslation('name') }}
+                        @if($model->isSystemPage())
+                            <span class="badge bg-label-primary ms-1">{{ __('dashboard.system_page') }}</span>
+                        @endif
+                    </td>
+                    <td><code>{{ $model->slug }}</code></td>
                     <td><x-admin.status-badge :status="$model->status" /></td>
                     <td>
-                        <x-admin.buttons :editRoute="route($editRoute, $model->id)" :deleteRoute="route($deleteRoute, $model->id)" :showRoute="route($showRoute, $model->id)" />
+                        <x-admin.buttons :editRoute="route($editRoute, $model->id)" :showRoute="route($showRoute, $model->id)" />
                     </td>
                 </tr>
             @empty

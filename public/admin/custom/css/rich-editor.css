@@ -1,0 +1,33 @@
+/* Dashboard rich text editor (TinyMCE) */
+.mj-rich-editor-wrap .tox-tinymce {
+    border-radius: 0.375rem;
+    border-color: #d9dee3;
+}
+
+.mj-rich-editor-wrap .tox .tox-edit-area__iframe {
+    background: #fff;
+}
+
+.mj-admin-rich-content {
+    line-height: 1.7;
+}
+
+.mj-admin-rich-content p:last-child,
+.mj-admin-rich-content ul:last-child,
+.mj-admin-rich-content ol:last-child {
+    margin-bottom: 0;
+}
+
+.mj-admin-rich-content ul,
+.mj-admin-rich-content ol {
+    padding-inline-start: 1.25rem;
+}
+
+.mj-admin-rich-content a {
+    color: var(--bs-primary);
+    text-decoration: underline;
+}
+
+html[dir="rtl"] .mj-admin-rich-content {
+    text-align: start;
+}

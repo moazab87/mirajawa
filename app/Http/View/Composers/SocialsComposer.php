@@ -12,7 +12,10 @@ class SocialsComposer
      */
     public function compose(View $view): void
     {
-        $view->with('socials', Social::where('is_active', true)
+        $view->with('socials', Social::query()
+            ->where('is_active', true)
+            ->whereNotNull('url')
+            ->where('url', '!=', '')
             ->orderBy('id')
             ->get());
     }

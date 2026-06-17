@@ -5,6 +5,7 @@
     'editRoute',
     'backRoute',
     'icon' => 'bx-file',
+    'richFields' => ['description', 'answer', 'map_desc', 'how_to_use', 'storage_conditions', 'notes'],
 ])
 
 <x-admin.show-page
@@ -24,12 +25,21 @@
             <div class="dash-lang-section-title">{{ getLanguageName($lang) }}</div>
             <div class="dash-detail-grid">
                 @foreach ($fields as $field)
+                    @php
+                        $content = $model->getTranslation($field, $lang, false);
+                        $isRich = in_array($field, $richFields, true);
+                    @endphp
                     <x-admin.detail-item
                         :label="__('dashboard.' . $field)"
                         icon="bx-text"
                         icon-variant="muted"
+                        :full-width="$isRich"
                     >
-                        {{ $model->getTranslation($field, $lang) ?: '—' }}
+                        @if($isRich && $content)
+                            <div class="mj-admin-rich-content">{!! $content !!}</div>
+                        @else
+                            {{ $content ?: '—' }}
+                        @endif
                     </x-admin.detail-item>
                 @endforeach
             </div>

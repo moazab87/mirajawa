@@ -5,7 +5,7 @@ namespace App\Http\Requests\Admin\Address;
 use App\Http\Requests\Admin\Concerns\TranslatableRequestRules;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class   StoreRequest extends FormRequest
 {
     use TranslatableRequestRules;
 

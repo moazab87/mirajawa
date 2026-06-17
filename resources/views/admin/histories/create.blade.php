@@ -13,6 +13,7 @@
             
             @include('admin.layouts.partials.alerts')
             <div class="row">
+                @include('admin.histories.partials.year-field', ['model' => $model ?? null])
                 @include('admin.shared.language-tabs', ['fields' => [
                     'name' => ['type' => 'text', 'label' => 'dashboard.name', 'required' => true],
                     'description' => ['type' => 'textarea', 'label' => 'dashboard.description']

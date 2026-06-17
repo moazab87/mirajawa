@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Enums\FixedPageSlugEnum;
 use App\Http\Controllers\Controller;
 use App\Services\Web\WebsiteContentService;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class ProductController extends Controller
         $productGroupId = $request->filled('group') ? (int) $request->input('group') : null;
 
         return view('web.products.index', [
-            'page' => $this->content->fixedPage('products'),
+            'page' => $this->content->fixedPage(FixedPageSlugEnum::PRODUCTS),
             'categories' => $this->content->categoriesWithGroups(),
             'productGroups' => $this->content->productGroups($categoryId),
             'products' => $this->content->paginateProducts([

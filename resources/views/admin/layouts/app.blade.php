@@ -52,6 +52,7 @@
 
     <link rel="stylesheet" href="{{ asset('admin/custom/css/myStyle.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/custom/css/dashboard-ui.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin/custom/css/rich-editor.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/custom/css/fileinput.min.css') }}" />
 
     <!-- Helpers -->
@@ -154,6 +155,9 @@
         {{ app()->setLocale(session('Lang')) }}
     @endif
     <x-admin.uploadImage.script />
+
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@7.5.1/tinymce.min.js"></script>
+    <script src="{{ asset('admin/custom/js/rich-editor.js') }}"></script>
 
     @yield('script')
 

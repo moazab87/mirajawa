@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\FixedPageSlugEnum;
 use App\Enums\GeneralStatusEnum;
 use App\Traits\HasGeneralStatus;
 use App\Traits\TranslatableDisplayTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use Spatie\Translatable\HasTranslations;
 
 class FixedPage extends Model
@@ -40,11 +40,35 @@ class FixedPage extends Model
         'status' => GeneralStatusEnum::class,
     ];
 
-    public static function generateSlug(array $name): string
+    protected static function booted(): void
     {
-        $source = $name['en'] ?? $name['ar'] ?? $name['ja'] ?? 'page';
+        static::creating(function (FixedPage $page) {
+            if (! app()->runningInConsole()) {
+                return false;
+            }
+        });
 
-        return Str::slug($source);
+        static::updating(function (FixedPage $page) {
+            if ($page->isDirty('slug')) {
+                $page->slug = $page->getOriginal('slug');
+            }
+        });
+
+        static::deleting(function (FixedPage $page) {
+            if (FixedPageSlugEnum::isSystemSlug($page->slug) && ! app()->runningInConsole()) {
+                return false;
+            }
+        });
+    }
+
+    public function scopeWhereSlug($query, string $slug)
+    {
+        return $query->where('slug', $slug);
+    }
+
+    public function isSystemPage(): bool
+    {
+        return FixedPageSlugEnum::isSystemSlug($this->slug);
     }
 
     public function getImageUrlAttribute(): ?string
