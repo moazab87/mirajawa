@@ -9,7 +9,7 @@
             ['url' => '#', 'text' => $title],
         ]" />
 
-        <x-admin.table :headers="['#', __('dashboard.name'), __('dashboard.url'), __('dashboard.icon'), __('dashboard.status'), __('dashboard.actions')]" :createRoute="$createRoute" :title="$title" :buttonText="__('dashboard.add')"
+        <x-admin.table :headers="['#', __('dashboard.name'), __('dashboard.url'), __('dashboard.icon'), __('dashboard.status'), __('dashboard.actions')]" :title="$title"
             :search="true" :indexRoute="$route">
 
             @forelse($models as $model)

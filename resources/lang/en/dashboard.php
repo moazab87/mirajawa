@@ -192,4 +192,10 @@ return [
     'sub_title_ar'     => 'Sub Title (Arabic)',
     'sub_title_en'     => 'Sub Title (English)',
     'sub_title_ja'     => 'Sub Title (Japanese)',
+    'answer_ar'        => 'Answer (Arabic)',
+    'answer_en'        => 'Answer (English)',
+    'answer_ja'        => 'Answer (Japanese)',
+    'question_ar'      => 'Question (Arabic)',
+    'question_en'      => 'Question (English)',
+    'question_ja'      => 'Question (Japanese)',
 ];

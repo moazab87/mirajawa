@@ -192,4 +192,10 @@ return [
     'sub_title_ar'     => 'サブタイトル（アラビア語）',
     'sub_title_en'     => 'サブタイトル（英語）',
     'sub_title_ja'     => 'サブタイトル（日本語）',
+    'answer_ar'        => '回答（アラビア語）',
+    'answer_en'        => '回答（英語）',
+    'answer_ja'        => '回答（日本語）',
+    'question_ar'      => '質問（アラビア語）',
+    'question_en'      => '質問（英語）',
+    'question_ja'      => '質問（日本語）',
 ];
