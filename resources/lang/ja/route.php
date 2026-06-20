@@ -112,6 +112,7 @@ return [
     "addresses" => ['index' => '住所', "create" => "住所追加", "edit" => "住所編集", "show" => "住所詳細"],
     "branches" => ['index' => '支店', "create" => "支店追加", "edit" => "支店編集", "show" => "支店詳細"],
     "faqs" => ['index' => 'FAQ', "create" => "FAQ追加", "edit" => "FAQ編集", "show" => "FAQ詳細"],
+    "videos" => ['index' => '動画', "create" => "動画追加", "edit" => "動画編集", "show" => "動画詳細"],
     "profiles" => ['index' => 'プロフィール', "create" => "プロフィール追加", "edit" => "プロフィール編集", "show" => "プロフィール詳細"],
     "histories" => ['index' => '沿革', "create" => "沿革追加", "edit" => "沿革編集", "show" => "沿革詳細"],
     "informationBlocks" => ['index' => '情報ブロック', "create" => "ブロック追加", "edit" => "ブロック編集", "show" => "ブロック詳細"],

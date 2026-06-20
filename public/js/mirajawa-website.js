@@ -73,6 +73,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     startHeroTimer();
 
+    const scrollVideos = document.querySelectorAll('.js-scroll-video');
+    if (scrollVideos.length && 'IntersectionObserver' in window) {
+        let currentlyPlaying = null;
+
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                const video = entry.target;
+
+                if (entry.isIntersecting) {
+                    if (currentlyPlaying && currentlyPlaying !== video) {
+                        currentlyPlaying.pause();
+                    }
+
+                    video.play().catch(() => {});
+                    currentlyPlaying = video;
+                } else {
+                    video.pause();
+
+                    if (currentlyPlaying === video) {
+                        currentlyPlaying = null;
+                    }
+                }
+            });
+        }, { threshold: 0.55 });
+
+        scrollVideos.forEach((video) => videoObserver.observe(video));
+    }
+
     const revealElements = document.querySelectorAll('.mj-reveal');
     if (revealElements.length && 'IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries) => {

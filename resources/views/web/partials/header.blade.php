@@ -16,8 +16,10 @@
                 <ul class="mj-nav">
                     <li><a href="{{ route('web.home') }}" class="{{ isCurrentRoute('web.home') ? 'active' : '' }}">{{ __('website.home') }}</a></li>
                     <li><a href="{{ route('web.about') }}" class="{{ isCurrentRoute('web.about') ? 'active' : '' }}">{{ __('website.about_us') }}</a></li>
+                    <li><a href="{{ route('web.company-profile.download') }}" class="{{ isCurrentRoute('web.company-profile.download') ? 'active' : '' }}">{{ __('website.company_profile') }}</a></li>
                     <li><a href="{{ route('web.business') }}" class="{{ isCurrentRoute('web.business') ? 'active' : '' }}">{{ __('website.business') }}</a></li>
                     <li><a href="{{ route('web.products.index') }}" class="{{ request()->routeIs('web.products.*') ? 'active' : '' }}">{{ __('website.products') }}</a></li>
+                    <li><a href="{{ route('web.videos.index') }}" class="{{ isCurrentRoute('web.videos.index') ? 'active' : '' }}">{{ __('website.videos') }}</a></li>
                     {{-- <li><a href="{{ route('web.why-us') }}" class="{{ isCurrentRoute('web.why-us') ? 'active' : '' }}">{{ __('website.why_mirajawa') }}</a></li> --}}
                     <li><a href="{{ route('web.history') }}" class="{{ isCurrentRoute('web.history') ? 'active' : '' }}">{{ __('website.history') }}</a></li>
                     <li><a href="{{ route('web.contact.index') }}" class="{{ isCurrentRoute('web.contact.*') ? 'active' : '' }}">{{ __('website.contact_us') }}</a></li>

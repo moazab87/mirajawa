@@ -5,6 +5,7 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\InformationRequestController;
 use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Web\ProductController;
+use App\Http\Controllers\Web\VideoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/change-language/{lang}', function ($lang) {
@@ -22,11 +23,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/about-us', [PageController::class, 'about'])->name('about');
 Route::get('/company-profile', [PageController::class, 'companyProfile'])->name('company-profile');
+Route::get('/company-profile-download', [PageController::class, 'companyProfileDownload'])->name('company-profile.download');
 Route::get('/business', [PageController::class, 'business'])->name('business');
 Route::get('/why-us', [PageController::class, 'whyUs'])->name('why-us');
 Route::get('/history', [PageController::class, 'history'])->name('history');
 Route::get('/branches', [PageController::class, 'branches'])->name('branches');
 Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('privacy');
+
+Route::get('/videos', [VideoController::class, 'index'])->name('videos.index');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');

@@ -4,6 +4,24 @@
 @section('meta_description', Str::limit(strip_tags(($welcomePage->description ?? null) ?: ($aboutPage->description ?? null) ?: __('website.hero_default_subtitle')), 160))
 
 @section('content')
+
+
+    @if($welcomePage && $welcomePage->description)
+        <section id="welcome-section" class="mj-section mj-section--welcome-banner">
+            <div class="mj-welcome-banner__overlay" aria-hidden="true"></div>
+            <div class="mj-container mj-welcome-banner__content">
+                @include('web.partials.section-heading', [
+                    'number' => '01',
+                    'label' => __('website.welcome'),
+                    'title' => $welcomePage->name,
+                    'text' => $welcomePage->sub_title,
+                ])
+                <div class="mj-content mj-content-narrow mj-reveal mj-welcome-banner__text">
+                    {!! $welcomePage->description !!}
+                </div>
+            </div>
+        </section>
+    @endif
     <section class="mj-hero" aria-label="{{ __('website.home') }}">
         @php
             $bgImage = websiteBackgroundImage();
@@ -62,22 +80,6 @@
             <i class="bi bi-chevron-down" aria-hidden="true"></i>
         </a>
     </section>
-
-    @if($welcomePage && $welcomePage->description)
-        <section id="welcome-section" class="mj-section mj-section--white">
-            <div class="mj-container">
-                @include('web.partials.section-heading', [
-                    'number' => '01',
-                    'label' => __('website.welcome'),
-                    'title' => $welcomePage->name,
-                    'text' => $welcomePage->sub_title,
-                ])
-                <div class="mj-content mj-content-narrow mj-reveal">
-                    {!! $welcomePage->description !!}
-                </div>
-            </div>
-        </section>
-    @endif
 
     @if($aboutPage || $profiles->count())
         <section class="mj-section mj-section--white">

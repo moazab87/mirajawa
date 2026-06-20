@@ -26,6 +26,18 @@
                 </div>
             @endif
 
+            <section
+                class="mj-about-agriculture mj-reveal"
+                aria-label="{{ __('website.egyptian_agriculture') }}"
+            >
+                <div class="mj-about-agriculture__overlay" aria-hidden="true"></div>
+                <div class="mj-about-agriculture__content">
+                    <span class="mj-about-agriculture__eyebrow">{{ __('website.egyptian_agriculture') }}</span>
+                    <h2 class="mj-about-agriculture__title">{{ __('website.from_egyptian_fields_to_japan') }}</h2>
+                    <p class="mj-about-agriculture__text">{{ __('website.about_agriculture_story') }}</p>
+                </div>
+            </section>
+
             @if($profiles->count())
                 @include('web.partials.section-heading', ['title' => __('website.company_overview')])
                 <div class="mj-grid mj-grid--2">

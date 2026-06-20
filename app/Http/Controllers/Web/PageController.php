@@ -76,4 +76,9 @@ class PageController extends Controller
             'page' => $this->content->fixedPage(FixedPageSlugEnum::PRIVACY_POLICY),
         ]);
     }
+
+    public function companyProfileDownload(): View
+    {
+        return view('web.pages.company-profile-download');
+    }
 }

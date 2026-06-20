@@ -23,6 +23,7 @@
                     <a href="{{ route('web.about') }}">{{ __('website.about_us') }}</a>
                     {{-- <a href="{{ route('web.company-profile') }}">{{ __('website.company_profile') }}</a> --}}
                     <a href="{{ route('web.business') }}">{{ __('website.business') }}</a>
+                    <a href="{{ route('web.videos.index') }}">{{ __('website.videos') }}</a>
                     <a href="{{ route('web.history') }}">{{ __('website.history') }}</a>
                     <a href="{{ route('web.privacy') }}">{{ __('website.privacy_policy') }}</a>
                 </nav>

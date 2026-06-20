@@ -14,7 +14,7 @@ use App\Models\InformationBlock;
 use App\Models\Product;
 use App\Models\ProductGroup;
 use App\Models\Profile;
-use App\Models\Slider;
+use App\Models\Video;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -152,6 +152,11 @@ class WebsiteContentService
     public function faqs(): Collection
     {
         return Faq::active()->orderBy('id')->get();
+    }
+
+    public function videos(): Collection
+    {
+        return Video::active()->ordered()->get();
     }
 
     public function addresses(): Collection

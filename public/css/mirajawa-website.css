@@ -454,6 +454,58 @@ main { min-height: 50vh; }
 .mj-section--gray { background: var(--mj-gray-soft); }
 .mj-section--dark { background: var(--mj-green-dark); color: #fff; }
 
+.mj-section--welcome-banner {
+    position: relative;
+    min-height: clamp(420px, 55vh, 640px);
+    display: flex;
+    align-items: center;
+    background: var(--mj-green-dark) url('/images/home-welcome-bg.png') center center / cover no-repeat;
+    color: #fff;
+    overflow: hidden;
+}
+
+.mj-welcome-banner__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(15, 34, 25, 0.72) 0%, rgba(15, 34, 25, 0.55) 45%, rgba(15, 34, 25, 0.82) 100%),
+        linear-gradient(90deg, rgba(15, 34, 25, 0.35) 0%, rgba(15, 34, 25, 0.2) 50%, rgba(15, 34, 25, 0.35) 100%);
+    pointer-events: none;
+}
+
+.mj-welcome-banner__content {
+    position: relative;
+    z-index: 1;
+}
+
+.mj-section--welcome-banner .mj-section-heading__title {
+    color: #fff;
+}
+
+.mj-section--welcome-banner .mj-section-heading__text {
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.mj-section--welcome-banner .mj-section-heading__accent {
+    background: linear-gradient(90deg, var(--mj-gold), rgba(255, 255, 255, 0.35));
+}
+
+.mj-welcome-banner__text,
+.mj-section--welcome-banner .mj-content {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.mj-section--welcome-banner .mj-content h1,
+.mj-section--welcome-banner .mj-content h2,
+.mj-section--welcome-banner .mj-content h3,
+.mj-section--welcome-banner .mj-content h4 {
+    color: #fff;
+}
+
+.mj-section--welcome-banner .mj-content a {
+    color: var(--mj-gold-light);
+}
+
 .mj-section + .mj-section--beige,
 .mj-section--white + .mj-section--beige,
 .mj-section--beige + .mj-section--white {
@@ -1333,6 +1385,292 @@ html[lang="ar"] .mj-content { text-align: start; }
     object-fit: cover;
 }
 
+/* ─── About agriculture story ─── */
+.mj-about-agriculture {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: clamp(320px, 42vw, 460px);
+    margin-top: 3rem;
+    padding: clamp(2rem, 5vw, 3.25rem);
+    border-radius: 28px;
+    overflow: hidden;
+    background-color: var(--mj-green-dark);
+    background-image: url('/images/about/strawberry-field.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: var(--mj-shadow);
+}
+
+.mj-about-agriculture__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to inline-end,
+            rgba(8, 48, 35, 0.88) 0%,
+            rgba(8, 48, 35, 0.62) 42%,
+            rgba(8, 48, 35, 0.22) 100%
+        ),
+        linear-gradient(180deg, rgba(8, 48, 35, 0.15) 0%, rgba(8, 48, 35, 0.35) 100%);
+    pointer-events: none;
+}
+
+.mj-about-agriculture__content {
+    position: relative;
+    z-index: 1;
+    max-width: min(540px, 100%);
+    color: #fff;
+    text-align: start;
+}
+
+.mj-about-agriculture__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.85rem;
+    color: var(--mj-gold-light);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+}
+
+.mj-about-agriculture__eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 2px;
+    background: var(--mj-gold-light);
+    border-radius: 999px;
+}
+
+.mj-about-agriculture__title {
+    margin: 0 0 1rem;
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    font-weight: 800;
+    line-height: 1.25;
+    color: #fff;
+}
+
+.mj-about-agriculture__text {
+    margin: 0;
+    max-width: 48ch;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+    line-height: 1.85;
+}
+
+/* ─── Company profile download page ─── */
+.mj-download-page {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: calc(100vh - 72px);
+    min-height: calc(100dvh - 72px);
+    padding: clamp(3rem, 8vw, 5rem) 0;
+    background-color: var(--mj-green-dark);
+    background-image: url('/images/company-profile/company-profile-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.mj-download-page__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(8, 48, 35, 0.78) 0%, rgba(8, 48, 35, 0.62) 45%, rgba(8, 48, 35, 0.82) 100%),
+        radial-gradient(ellipse at center, rgba(8, 48, 35, 0.15) 0%, rgba(8, 48, 35, 0.55) 100%);
+    pointer-events: none;
+}
+
+.mj-download-page__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mj-download-card {
+    width: min(100%, 640px);
+    margin-inline: auto;
+    padding: clamp(2rem, 5vw, 3rem);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: var(--mj-shadow-lg);
+    text-align: center;
+    color: var(--mj-text);
+}
+
+.mj-download-card__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-bottom: 0.85rem;
+    color: var(--mj-gold);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+}
+
+.mj-download-card__eyebrow::before,
+.mj-download-card__eyebrow::after {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--mj-gold);
+    border-radius: 999px;
+}
+
+.mj-download-card__title {
+    margin: 0 0 1rem;
+    font-size: clamp(1.55rem, 3.5vw, 2.15rem);
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--mj-green-dark);
+}
+
+.mj-download-card__text {
+    margin: 0 auto 1.75rem;
+    max-width: 52ch;
+    color: var(--mj-text-muted);
+    font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+    line-height: 1.85;
+}
+
+.mj-download-card__meta {
+    display: inline-grid;
+    gap: 0.35rem;
+    margin: 0 auto 1.75rem;
+    padding: 0.85rem 1.25rem;
+    border-radius: var(--mj-radius-sm);
+    background: var(--mj-beige);
+    border: 1px solid var(--mj-border);
+    text-align: start;
+}
+
+.mj-download-card__meta-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem 1.25rem;
+    align-items: center;
+}
+
+.mj-download-card__meta dt {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--mj-green-dark);
+    white-space: nowrap;
+}
+
+.mj-download-card__meta dd {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--mj-text-muted);
+}
+
+.mj-download-card__btn {
+    min-width: min(100%, 280px);
+}
+
+/* ─── Public videos page ─── */
+.mj-videos-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 4vw, 3rem);
+}
+
+.mj-video-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 3vw, 2rem);
+    align-items: center;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: var(--mj-white);
+    border-radius: var(--mj-radius);
+    border: 1px solid var(--mj-border);
+    box-shadow: var(--mj-shadow-sm);
+}
+
+.mj-video-card__content {
+    text-align: start;
+}
+
+.mj-video-card__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.75rem;
+    color: var(--mj-gold);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+}
+
+.mj-video-card__title {
+    margin: 0 0 1rem;
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--mj-green-dark);
+}
+
+.mj-video-card__description {
+    color: var(--mj-text-muted);
+}
+
+.mj-video-card__media {
+    border-radius: var(--mj-radius-sm);
+    overflow: hidden;
+    background: #000;
+    box-shadow: var(--mj-shadow);
+}
+
+.mj-video-card__video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: #000;
+}
+
+.mj-video-card--reverse .mj-video-card__content {
+    order: 2;
+}
+
+.mj-video-card--reverse .mj-video-card__media {
+    order: 1;
+}
+
+.mj-video-card--text-only {
+    grid-template-columns: 1fr;
+}
+
+.mj-video-card--text-only .mj-video-card__media {
+    max-width: min(100%, 820px);
+    margin-inline: auto;
+    width: 100%;
+}
+
+.mj-admin-video-preview {
+    display: block;
+    width: 160px;
+    max-height: 90px;
+    border-radius: var(--mj-radius-xs);
+    background: #000;
+    object-fit: cover;
+}
+
 /* ─── Empty state ─── */
 .mj-empty-state {
     text-align: center;
@@ -1582,6 +1920,56 @@ body.mj-menu-open { overflow: hidden; }
     }
 
     .mj-hero__scroll { display: none; }
+
+    .mj-about-agriculture {
+        min-height: clamp(300px, 72vw, 380px);
+        padding: 1.75rem 1.35rem;
+        border-radius: var(--mj-radius);
+    }
+
+    .mj-about-agriculture__overlay {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(8, 48, 35, 0.82) 0%,
+                rgba(8, 48, 35, 0.72) 100%
+            );
+    }
+
+    .mj-about-agriculture__content {
+        max-width: 100%;
+    }
+
+    .mj-download-page {
+        min-height: auto;
+        padding: clamp(2.5rem, 10vw, 3.5rem) 0;
+    }
+
+    .mj-download-card {
+        border-radius: var(--mj-radius);
+        padding: 1.75rem 1.35rem;
+    }
+
+    .mj-download-card__btn {
+        width: 100%;
+    }
+
+    .mj-video-card {
+        grid-template-columns: 1fr;
+    }
+
+    .mj-video-card__media {
+        order: -1;
+    }
+
+    .mj-video-card--reverse .mj-video-card__content,
+    .mj-video-card--reverse .mj-video-card__media {
+        order: unset;
+    }
+
+    .mj-video-card--reverse .mj-video-card__media {
+        order: -1;
+    }
 }
 
 @media (min-width: 992px) {

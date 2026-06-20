@@ -113,6 +113,12 @@ return [
         "edit" => "Edit FAQ",
         "show" => "Show FAQ",
     ],
+    "videos" => [
+        'index' => 'Videos',
+        "create" => "Add Video",
+        "edit" => "Edit Video",
+        "show" => "Show Video",
+    ],
     "profiles" => [
         'index' => 'Profiles',
         "create" => "Add Profile",

@@ -72,6 +72,12 @@
                 <div>@lang('dashboard.faqs.index')</div>
             </a>
         </li>
+        <li class="menu-item {{ isset($active) && $active == 'videos' ? 'active' : '' }}">
+            <a href="{{ route('admin.videos.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-video"></i>
+                <div>@lang('dashboard.videos.index')</div>
+            </a>
+        </li>
 
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">@lang('dashboard.menu.products_section')</span>

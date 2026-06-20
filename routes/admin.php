@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SocialController;
+use App\Http\Controllers\Admin\VideoController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -51,6 +52,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::resource('addresses',                     AddressController::class);
     Route::resource('branches',                      BranchController::class);
     Route::resource('faqs',                          FaqController::class);
+    Route::resource('videos',                        VideoController::class);
     Route::resource('profiles',                      ProfileController::class);
     Route::resource('histories',                     HistoryController::class);
     Route::resource('informationBlocks',             InformationBlockController::class);
